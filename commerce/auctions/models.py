@@ -14,7 +14,9 @@ from django.db import models
 
 
 class User(AbstractUser):
-    pass
+    username = models.CharField(max_length=18, unique=True)
+    password = models.CharField(max_length=18)
+    email = models.CharField(max_length=30)
 
 
 class Auction_Listing(models.Model):
@@ -31,7 +33,7 @@ class Bids(models.Model):
     user_id = User.pk
     new_bid = models.IntegerField(
         validators=[
-            MinValueValidator(Auction_Listing.item_initial_price),
+            MinValueValidator(1),
             MaxValueValidator(1000),
         ]
     )
