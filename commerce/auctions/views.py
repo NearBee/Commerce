@@ -9,7 +9,9 @@ from .models import User, Auction_Listing
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    return render(
+        request, "auctions/index.html", {"listings": Auction_Listing.item_title}
+    )
 
 
 def login_view(request):
@@ -75,6 +77,7 @@ def create_listing(request):
         description = request.POST["description"]
         starting_bid = request.POST["starting_bid"]
 
+        # TODO: Update return after creating a LISTING PAGE
         return HttpResponseRedirect(reverse("index"))
 
     return render(request, "auctions/createlisting.html")
