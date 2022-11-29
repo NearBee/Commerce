@@ -21,12 +21,22 @@ class User(AbstractUser):
 
 class Auction_Listing(models.Model):
     lister = User.pk
-    item_title = models.CharField(max_length=50)
-    item_descripton = models.TextField(max_length=500)
+    item_title = models.CharField(max_length=50, blank=False)
+    item_description = models.TextField(max_length=500, blank=False)
     item_initial_price = models.IntegerField(
-        default=1, validators=[MinValueValidator(1), MaxValueValidator(1000)]
+        default=1,
+        validators=[MinValueValidator(1), MaxValueValidator(1000)],
+        blank=False,
     )
-    item_picture = models.ImageField(upload_to="images/")
+    item_picture = models.ImageField(upload_to="images/", blank=True)
+    CATEGORIES = (
+        ("Electronics", "Electronics"),
+        ("Toys", "Toys"),
+        ("Home Essentials", "Home Essentials"),
+        ("Fashion", "Fashion"),
+        ("ETC.", "ETC."),
+    )
+    item_category = models.CharField(max_length=15, choices=CATEGORIES, blank=True)
 
 
 class Bids(models.Model):
