@@ -10,7 +10,7 @@ from .models import User, Auction_Listing
 
 def index(request):
     return render(
-        request, "auctions/index.html", {"listings": Auction_Listing.item_title}
+        request, "auctions/index.html", {"listings": Auction_Listing.objects.all()}
     )
 
 
@@ -73,11 +73,20 @@ def register(request):
 @login_required(redirect_field_name="", login_url="login")
 def create_listing(request):
     if request.method == "POST":
-        title = request.POST["title"]
-        description = request.POST["description"]
-        starting_bid = request.POST["starting_bid"]
+        Auction_Listing.lister = User.pk
+        Auction_Listing.item_title = request.POST["title"]
+        Auction_Listing.item_description = request.POST["description"]
+        Auction_Listing.item_initial_price = request.POST["starting_bid"]
+        Auction_Listing.item_picture = request.POST["item_picture"]
+        Auction_Listing.item_category = request.POST["item_category"]
+        auction_listing = Auction_Listing.objects.create()
+        auction_listing.save()
 
         # TODO: Update return after creating a LISTING PAGE
         return HttpResponseRedirect(reverse("index"))
 
     return render(request, "auctions/createlisting.html")
+
+
+def active_listing(request):
+    raise NotImplementedError

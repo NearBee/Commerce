@@ -3,10 +3,11 @@
 {% block body %}
 <h2>Active Listings</h2>
 <ul>
-    {% for listings in active_listings %}
-    <li><a class="link-primary" href="{% url 'active_listing' listings %}">{{ listing }}</a></li>
+    {% for listing in listings %}
+    <li>{{ listing.item_title }}: {{ listing.item_description }} | ${{ listing.item_initial_price }}</li>
     {% endfor %}
 </ul>
 
-TODO
+<!--TODO: Create horizontal cards for each listing-->
+<!--I am thinking probably <a class="card"></a> then having to mess with the CSS for it-->
 {% endblock %}
