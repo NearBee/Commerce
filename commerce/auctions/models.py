@@ -21,11 +21,12 @@ class User(AbstractUser):
 
 class Auction_Listing(models.Model):
     lister = User.pk
-    item_picture = models.ImageField(upload_to="images/")
-    item_name = models.CharField(max_length=50)
+    item_title = models.CharField(max_length=50)
+    item_descripton = models.TextField(max_length=500)
     item_initial_price = models.IntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(1000)]
     )
+    item_picture = models.ImageField(upload_to="images/")
 
 
 class Bids(models.Model):
