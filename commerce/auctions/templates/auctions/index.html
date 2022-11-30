@@ -4,7 +4,9 @@
 <h2>Active Listings</h2>
 <ul>
     {% for listing in listings %}
-    <li>{{ listing.item_title }}: {{ listing.item_description }} | ${{ listing.item_initial_price }}</li>
+    <li> <img class="img-thumbnail" src="{{ listing.item_picture }}"> {{ listing.item_title }}:
+        {{ listing.item_description }} |
+        ${{ listing.item_initial_price }}</li>
     {% endfor %}
 </ul>
 
