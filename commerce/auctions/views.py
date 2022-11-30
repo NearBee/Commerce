@@ -88,5 +88,7 @@ def create_listing(request):
     return render(request, "auctions/createlisting.html")
 
 
-def active_listing(request):
-    raise NotImplementedError
+def active_listing(request, listing_key):
+    # listing = listing_key.pk
+    # return render(request, "auctions/listing.html")
+    pass
