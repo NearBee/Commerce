@@ -28,7 +28,7 @@ class Auction_Listing(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(1000)],
         blank=False,
     )
-    item_picture = models.ImageField(upload_to="images/", blank=True)
+    item_picture = models.ImageField(default="question_mark.png")
     CATEGORIES = (
         ("Electronics", "Electronics"),
         ("Toys", "Toys"),
@@ -38,8 +38,11 @@ class Auction_Listing(models.Model):
     )
     item_category = models.CharField(max_length=15, choices=CATEGORIES, blank=True)
 
+    def __str__(self):
+        return self.item_title
 
-class Bids(models.Model):
+
+class Bid(models.Model):
     auction_id = Auction_Listing.pk
     user_id = User.pk
     new_bid = models.IntegerField(
@@ -50,7 +53,7 @@ class Bids(models.Model):
     )
 
 
-class Comments(models.Model):
+class Comment(models.Model):
     auction_id = Auction_Listing.pk
     user_id = User.pk
     comments = models.TextField(
