@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -73,17 +74,41 @@ def register(request):
 @login_required(redirect_field_name="", login_url="login")
 def create_listing(request):
     if request.method == "POST":
-        Auction_Listing.lister = User.pk
-        Auction_Listing.item_title = request.POST["title"]
-        Auction_Listing.item_description = request.POST["description"]
-        Auction_Listing.item_initial_price = request.POST["starting_bid"]
-        Auction_Listing.item_picture = request.POST["item_picture"]
-        Auction_Listing.item_category = request.POST["item_category"]
-        auction_listing = Auction_Listing.objects.create()
-        auction_listing.save()
+        lister = User.pk
+        item_title = request.POST["title"]
+        item_description = request.POST["description"]
+        item_initial_price = request.POST["starting_bid"]
+        item_picture = request.POST["item_picture"]
+        item_category = request.POST["item_category"]
+        auction_listing = Auction_Listing.objects.create(
+            item_title=item_title,
+            item_description=item_description,
+            item_initial_price=item_initial_price,
+            item_picture=item_picture,
+            item_category=item_category,
+        )
+        try:
+            auction_listing.full_clean()
+        except ValidationError as e:
+            if e:
+                return render(
+                    request,
+                    "auction/createlisting.html",
+                    {
+                        "title": item_title,
+                        "description": item_description,
+                        "starting_bid": item_initial_price,
+                        "item_picture": item_picture,
+                        "item_category": item_category,
+                    },
+                )
 
-        # TODO: Update return after creating a LISTING PAGE
-        return HttpResponseRedirect(reverse("index"))
+        # TODO: Continue working on Validation Error display
+        # Also make sure that the listing isn't created if Validation Error shows up
+        # Possibly create a
+        else:
+            auction_listing.save()
+            return HttpResponseRedirect(reverse("index"))
 
     return render(request, "auctions/createlisting.html")
 

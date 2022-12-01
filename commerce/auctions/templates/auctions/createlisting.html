@@ -4,7 +4,7 @@
 {% block body %}
 <h1>Create Auction Listing</h1>
 <div>
-    <form action="{% url 'index' %}" method="post">
+    <form action="{% url 'creation' %}" method="post">
         {% csrf_token %}
         <div class="form-group">
             <input class="form-control" autofocus type="text" name="title" placeholder="Title" required="true">
@@ -18,7 +18,7 @@
         </div>
         <div class="mb-3">
             <label for="formFile" class="form-label">Image file input</label>
-            <input class="form-control" type="file" id="formFile" name="item_picture">
+            <input class="form-control" type="file" id="formFile" name="item_picture" accept="image/*">
         </div>
         <div class="mb-3">
             <label for="category_datalist" class="form-label">Category:</label>
@@ -27,7 +27,7 @@
             <datalist id="category_datalist_set">
                 <option value="Electronics">
                 <option value="Fashion">
-                <option value="Toy">
+                <option value="Toys">
                 <option value="Home Essential">
                 <option value="ETC.">
             </datalist>
