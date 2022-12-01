@@ -16,8 +16,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-MEDIA_URL = "images/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "images")
+MEDIA_URL = "auctions/images/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "auctions/images/")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_cleanup.apps.CleanupConfig",
 ]
 
 MIDDLEWARE = [
