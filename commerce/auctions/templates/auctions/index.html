@@ -4,9 +4,12 @@
 <h2>Active Listings</h2>
 <ul>
     {% for listing in listings %}
-    <li> <img class="img-thumbnail" src="{{ listing.item_picture }}"> {{ listing.item_title }}:
+    <li> <img class="img-thumbnail" src="{{ listing.item_picture.url|default_if_none:'question_mark.png' }}"
+            alt="No image" height="100px" width="100px">
+        {{ listing.item_title }}:
         {{ listing.item_description }} |
-        ${{ listing.item_initial_price }}</li>
+        ${{ listing.item_initial_price }}
+    </li>
     {% endfor %}
 </ul>
 
