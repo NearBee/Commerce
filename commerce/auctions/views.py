@@ -56,7 +56,7 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create_user(username, email, password)  # type: ignore
             user.save()
         except IntegrityError:
             return render(
@@ -89,6 +89,5 @@ def create_listing(request):
 
 
 def active_listing(request, listing_key):
-    # listing = listing_key.pk
     # return render(request, "auctions/listing.html")
     pass
