@@ -21,14 +21,18 @@ class User(AbstractUser):
 
 class Auction_Listing(models.Model):
     lister = User.pk
-    item_title = models.CharField(max_length=50, blank=False)
+    item_title = models.CharField(
+        max_length=50, blank=False, help_text="50 Character limit"
+    )
     item_description = models.TextField(max_length=500, blank=False)
     item_initial_price = models.IntegerField(
         default=1,
         validators=[MinValueValidator(1), MaxValueValidator(1000)],
         blank=False,
     )
-    item_picture = models.ImageField(default="question_mark.png")
+    item_picture = models.ImageField(
+        upload_to="auctions/images/", default="question_mark.png", unique=True
+    )
     CATEGORIES = (
         ("Electronics", "Electronics"),
         ("Toys", "Toys"),
