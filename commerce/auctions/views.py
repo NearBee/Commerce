@@ -78,7 +78,7 @@ def create_listing(request):
         item_title = request.POST["title"]
         item_description = request.POST["description"]
         item_initial_price = request.POST["starting_bid"]
-        item_picture = request.POST["item_picture"]
+        item_picture = request.POST["item_picture"](request.POST, request.FILES)
         item_category = request.POST["item_category"]
         auction_listing = Auction_Listing.objects.create(
             item_title=item_title,
@@ -105,7 +105,7 @@ def create_listing(request):
 
         # TODO: Continue working on Validation Error display
         # Also make sure that the listing isn't created if Validation Error shows up
-        # Possibly create a
+        # Possibly create an ERROR page for the time being, better solution would be giving the forms back
         else:
             auction_listing.save()
             return HttpResponseRedirect(reverse("index"))

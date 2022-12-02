@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.files.storage import FileSystemStorage
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
@@ -19,6 +20,9 @@ class User(AbstractUser):
     email = models.CharField(max_length=30)
 
 
+fs = FileSystemStorage(location="/auctions/images")
+
+
 class Auction_Listing(models.Model):
     lister = User.pk
     item_title = models.CharField(
@@ -31,7 +35,10 @@ class Auction_Listing(models.Model):
         blank=False,
     )
     item_picture = models.ImageField(
-        upload_to="auctions/images/", default="question_mark.png", unique=True
+        upload_to="",
+        default="question_mark.png",
+        unique=True,
+        storage=fs,
     )
     CATEGORIES = (
         ("Electronics", "Electronics"),
