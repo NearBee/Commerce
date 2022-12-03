@@ -19,6 +19,9 @@ class User(AbstractUser):
     password = models.CharField(max_length=18)
     email = models.CharField(max_length=30)
 
+    def __str__(self):
+        return self.username
+
 
 fs = FileSystemStorage(location="/auctions/images")
 
