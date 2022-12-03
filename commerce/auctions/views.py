@@ -78,7 +78,7 @@ def create_listing(request):
         item_title = request.POST["title"]
         item_description = request.POST["description"]
         item_initial_price = request.POST["starting_bid"]
-        item_picture = request.POST["item_picture"](request.POST, request.FILES)
+        item_picture = request.POST["item_picture"]
         item_category = request.POST["item_category"]
         auction_listing = Auction_Listing.objects.create(
             item_title=item_title,
