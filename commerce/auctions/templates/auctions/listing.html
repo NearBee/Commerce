@@ -1,5 +1,9 @@
 {% extends "auctions/layout.html" %}
 
+{% block title %}{{ listing.item_title }}{% endblock %}
+
 {% block body %}
-{{ listing }}
+{{ listing.item_title }}
+{{ listing.item_description }}
+{{ listing.item_initial_price }}
 {% endblock %}
