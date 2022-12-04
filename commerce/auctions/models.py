@@ -27,7 +27,8 @@ fs = FileSystemStorage(location="/auctions/images")
 
 
 class Auction_Listing(models.Model):
-    lister = User.pk
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # TODO: Finish migrating user.foreignkey changes
     item_title = models.CharField(
         max_length=50, blank=False, help_text="50 Character limit"
     )
@@ -57,8 +58,11 @@ class Auction_Listing(models.Model):
 
 
 class Bid(models.Model):
-    auction_id = Auction_Listing.pk
-    user_id = User.pk
+    auction_id = models.ForeignKey(
+        Auction_Listing, on_delete=models.CASCADE, null=False
+    )
+    # TODO: Finish migrating user.foreignkey changes
+    user = models.ForeignKey(User, on_delete=models.SET_NULL)
     new_bid = models.IntegerField(
         validators=[
             MinValueValidator(1),
@@ -68,8 +72,11 @@ class Bid(models.Model):
 
 
 class Comment(models.Model):
-    auction_id = Auction_Listing.pk
-    user_id = User.pk
+    auction_id = models.ForeignKey(
+        Auction_Listing, on_delete=models.CASCADE, null=False
+    )
+    # TODO: Finish migrating user.foreignkey changes
+    user = models.ForeignKey(User, on_delete=models.SET_NULL)
     comments = models.TextField(
         max_length=255, help_text="Write a comment here about the item."
     )
