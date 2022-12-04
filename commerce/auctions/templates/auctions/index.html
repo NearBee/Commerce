@@ -9,6 +9,7 @@
         {{ listing.item_title }}:
         {{ listing.item_description }} |
         ${{ listing.item_initial_price }}
+        <a href="{% url 'listing' listing.id %}">Check out this item!</a>
     </li>
     {% endfor %}
 </ul>

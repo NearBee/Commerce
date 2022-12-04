@@ -113,6 +113,7 @@ def create_listing(request):
     return render(request, "auctions/createlisting.html")
 
 
-def active_listing(request, listing_key):
-    # return render(request, "auctions/listing.html")
+def active_listing(request, id):
+    listing = Auction_Listing.objects.get(id=id)
+    return render(request, "auctions/listing.html", {"listing": listing})
     pass
