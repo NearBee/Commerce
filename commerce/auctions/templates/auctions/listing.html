@@ -3,7 +3,23 @@
 {% block title %}{{ listing.item_title }}{% endblock %}
 
 {% block body %}
-{{ listing.item_title }}
-{{ listing.item_description }}
-{{ listing.item_initial_price }}
+<div class="card mb-3">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img class="img=fluid rounded-start" src="{{ listing.item_picture.url }}" alt="No image" height="300px"
+                width="300px">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                {{ listing.item_title }}
+            </div>
+            <div class="card-body">
+                {{ listing.item_description }}
+            </div>
+            <div class="card-body">
+                ${{ listing.item_initial_price }}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
