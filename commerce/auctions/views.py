@@ -91,4 +91,3 @@ def create_listing(request):
 def active_listing(request, id):
     listing = Auction_Listing.objects.get(id=id)
     return render(request, "auctions/listing.html", {"listing": listing})
-    pass

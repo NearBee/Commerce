@@ -29,7 +29,6 @@ class Auction_Listing(models.Model):
         on_delete=models.SET_NULL,
         null=True,
     )
-    # TODO: Finish migrating user.foreignkey changes
     item_title = models.CharField(
         max_length=50, blank=False, help_text="50 Character limit"
     )
@@ -59,7 +58,6 @@ class Bid(models.Model):
     auction_id = models.ForeignKey(
         Auction_Listing, on_delete=models.CASCADE, null=False
     )
-    # TODO: Finish migrating user.foreignkey changes
     user_id = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -77,7 +75,6 @@ class Comment(models.Model):
     auction_id = models.ForeignKey(
         Auction_Listing, on_delete=models.CASCADE, null=False
     )
-    # TODO: Finish migrating user.foreignkey changes
     user_id = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
