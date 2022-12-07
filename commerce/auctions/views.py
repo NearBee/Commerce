@@ -3,10 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .models import User, Auction_Listing
+from .forms import create_listing_forms, bid_forms, comment_forms
 
 
 def index(request):
@@ -74,43 +75,17 @@ def register(request):
 @login_required(redirect_field_name="", login_url="login")
 def create_listing(request):
     if request.method == "POST":
-        lister = User.pk
-        item_title = request.POST["title"]
-        item_description = request.POST["description"]
-        item_initial_price = request.POST["starting_bid"]
-        item_picture = request.POST["item_picture"]
-        item_category = request.POST["item_category"]
-        auction_listing = Auction_Listing.objects.create(
-            item_title=item_title,
-            item_description=item_description,
-            item_initial_price=item_initial_price,
-            item_picture=item_picture,
-            item_category=item_category,
-        )
-        try:
-            auction_listing.full_clean()
-        except ValidationError as e:
-            if e:
-                return render(
-                    request,
-                    "auction/createlisting.html",
-                    {
-                        "title": item_title,
-                        "description": item_description,
-                        "starting_bid": item_initial_price,
-                        "item_picture": item_picture,
-                        "item_category": item_category,
-                    },
-                )
+        form = create_listing_forms(request.POST, request.FILES)
+        if form.is_valid():
+            # file is saved
+            new_listing = form.save(commit=False)
+            new_listing.user_id = request.user
+            new_listing.save()
 
-        # TODO: Continue working on Validation Error display
-        # Also make sure that the listing isn't created if Validation Error shows up
-        # Possibly create an ERROR page for the time being, better solution would be giving the forms back
-        else:
-            auction_listing.save()
-            return HttpResponseRedirect(reverse("index"))
-
-    return render(request, "auctions/createlisting.html")
+            return redirect("index")
+    else:
+        form = create_listing_forms()
+    return render(request, "auctions/createlisting.html", {"form": form})
 
 
 def active_listing(request, id):
