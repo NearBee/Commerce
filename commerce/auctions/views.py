@@ -90,4 +90,23 @@ def create_listing(request):
 
 def active_listing(request, id):
     listing = Auction_Listing.objects.get(id=id)
-    return render(request, "auctions/listing.html", {"listing": listing})
+    if not request.user.is_authenticated:
+        return render(request, "auctions/listing.html", {"listing": listing})
+    else:
+        if request.method == "POST":
+            bidding_form = bid_forms(request.POST)
+            comment_form = comment_forms(request.POST)
+            if bidding_form.is_valid() and comment_form.is_valid():
+                bidding_form.save()
+                comment_form.save()
+                return render(request, "auctions/listing.html", {"listing": listing})
+            else:
+                return render(
+                    request,
+                    "auctions/listing.html",
+                    {
+                        "listing": listing,
+                        "bidding_form": bidding_form,
+                        "comment_form": comment_form,
+                    },
+                )
