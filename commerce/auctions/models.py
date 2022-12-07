@@ -23,9 +23,6 @@ class User(AbstractUser):
         return self.username
 
 
-# fs = FileSystemStorage(location="/auctions/images")
-
-
 class Auction_Listing(models.Model):
     user_id = models.ForeignKey(
         User,
