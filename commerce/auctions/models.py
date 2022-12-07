@@ -23,11 +23,15 @@ class User(AbstractUser):
         return self.username
 
 
-fs = FileSystemStorage(location="/auctions/images")
+# fs = FileSystemStorage(location="/auctions/images")
 
 
 class Auction_Listing(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
     # TODO: Finish migrating user.foreignkey changes
     item_title = models.CharField(
         max_length=50, blank=False, help_text="50 Character limit"
@@ -39,10 +43,7 @@ class Auction_Listing(models.Model):
         blank=False,
     )
     item_picture = models.ImageField(
-        upload_to="",
         default="question_mark.png",
-        unique=True,
-        storage=fs,
     )
     CATEGORIES = (
         ("Electronics", "Electronics"),
@@ -62,7 +63,11 @@ class Bid(models.Model):
         Auction_Listing, on_delete=models.CASCADE, null=False
     )
     # TODO: Finish migrating user.foreignkey changes
-    user = models.ForeignKey(User, on_delete=models.SET_NULL)
+    user_id = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
     new_bid = models.IntegerField(
         validators=[
             MinValueValidator(1),
@@ -76,7 +81,11 @@ class Comment(models.Model):
         Auction_Listing, on_delete=models.CASCADE, null=False
     )
     # TODO: Finish migrating user.foreignkey changes
-    user = models.ForeignKey(User, on_delete=models.SET_NULL)
+    user_id = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
     comments = models.TextField(
         max_length=255, help_text="Write a comment here about the item."
     )
