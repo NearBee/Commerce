@@ -22,14 +22,16 @@
             </div>
             <div class="card-body">
                 ${{ listing.item_initial_price }}
-                {% if user.is_authenticated %}
-                {{ bidding_form }}
-                {% endif %}
+                <form for="bidding-form" type="submit" method="post">
+                    {{ bidding_form }}
+                    <input type="button" for="bidding-form" value="Submit Bid!">
+                </form>
             </div>
             <div>
-                {% if user.is_authenticated %}
-                {{ comment_form }}
-                {% endif %}
+                <form for="comment-form" type="submit" method="post">
+                    {{ comment_form }}
+                    <input for="comment-form" type="button" value="Submit Comment!">
+                </form>
             </div>
         </div>
     </div>
