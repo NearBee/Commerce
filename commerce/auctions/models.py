@@ -67,7 +67,8 @@ class Bid(models.Model):
         validators=[
             MinValueValidator(1),
             MaxValueValidator(1000),
-        ]
+        ],
+        blank=True,
     )
 
 
@@ -81,5 +82,7 @@ class Comment(models.Model):
         null=True,
     )
     comments = models.TextField(
-        max_length=255, help_text="Write a comment here about the item."
+        max_length=255,
+        help_text="Write a comment here about the item.",
+        blank=True,
     )
