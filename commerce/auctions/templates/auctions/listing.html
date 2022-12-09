@@ -23,14 +23,16 @@
             <div class="card-body">
                 ${{ listing.item_initial_price }}
                 <form for="bidding-form" type="submit" method="post">
+                    {% csrf_token %}
                     {{ bidding_form }}
-                    <input type="button" for="bidding-form" value="Submit Bid!">
+                    <input class="btn btn-primary" type="submit" for="bidding-form" value="Submit Bid!">
                 </form>
             </div>
             <div>
                 <form for="comment-form" type="submit" method="post">
+                    {% csrf_token %}
                     {{ comment_form }}
-                    <input for="comment-form" type="button" value="Submit Comment!">
+                    <input class="btn btn-primary" type="submit" for="comment-form" value="Submit Comment!">
                 </form>
             </div>
         </div>

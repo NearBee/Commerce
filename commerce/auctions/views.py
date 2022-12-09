@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
@@ -98,13 +99,42 @@ def active_listing(request, id):
         if request.method == "POST" and request.user.is_authenticated:
             bidding_form = bid_forms(request.POST)
             comment_form = comment_forms(request.POST)
-            if bidding_form.is_valid() and comment_form.is_valid():
-                new_bidding_form = bidding_form.save(commit=False)
-                new_bidding_form.auction_id = request.auction_id
-                new_bidding_form.user_id = request.user
-                new_bidding_form.save()
+            if bidding_form.is_valid():
+                if (
+                    bidding_form.cleaned_data.get("new_bid")
+                    < listing.item_initial_price
+                ):
+                    # TODO: Possibly change Auction listing model to include bet
+                    # Then have the values check against eachother in validation
+                    messages.warning(
+                        request, "New bid amount must be higher than the posted one."
+                    )
+                    return render(
+                        request,
+                        "auctions/listing.html",
+                        {
+                            "listing": listing,
+                            "bidding_form": bidding_form,
+                            "comment_form": comment_form,
+                        },
+                    )
+                else:
+                    new_bidding_form = bidding_form.save(commit=False)
+                    new_bidding_form.auction_id = Auction_Listing.objects.get(id=id)
+                    new_bidding_form.user_id = request.user
+                    new_bidding_form.save()
+                return render(
+                    request,
+                    "auctions/listing.html",
+                    {
+                        "listing": listing,
+                        "bidding_form": bidding_form,
+                        "comment_form": comment_form,
+                    },
+                )
+            elif comment_form.is_valid():
                 new_comment_form = comment_form.save(commit=False)
-                new_comment_form.auction_id = request.auction_id
+                new_comment_form.auction_id = Auction_Listing.objects.get(id=id)
                 new_comment_form.user_id = request.user
                 new_comment_form.save()  # TODO: There has to be a cleaner way to do this possibly
                 return render(
