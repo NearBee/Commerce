@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import User, Auction_Listing
+from .models import User, Auction_Listing, Comment
 from .forms import create_listing_forms, bid_forms, comment_forms
 
 
@@ -90,16 +90,19 @@ def create_listing(request):
 
 
 def active_listing(request, id):
+    comments = Comment.objects.all().filter(auction_id=id)
     listing = Auction_Listing.objects.get(id=id)
     bids = bid_forms()
     comments = comment_forms()
     if not request.user.is_authenticated:
-        return render(request, "auctions/listing.html", {"listing": listing})
+        return render(
+            request, "auctions/listing.html", {"listing": listing, "comments": comments}
+        )
+
     else:
         if request.method == "POST" and request.user.is_authenticated:
             bidding_form = bid_forms(request.POST)
-            comment_form = comment_forms(request.POST)
-            if bidding_form.is_valid():
+            if bidding_form.is_valid() and "bidding_form" in request.POST:
                 if (
                     bidding_form.cleaned_data.get("new_bid")
                     < listing.item_initial_price
@@ -116,12 +119,18 @@ def active_listing(request, id):
                             "listing": listing,
                             "bidding_form": bidding_form,
                             "comment_form": comment_form,
+                            "comments": comments,
                         },
                     )
+
                 else:
                     new_bidding_form = bidding_form.save(commit=False)
                     new_bidding_form.auction_id = Auction_Listing.objects.get(id=id)
                     new_bidding_form.user_id = request.user
+                    # Updates the listings price to the new bid
+                    Auction_Listing.objects.filter(id=id).update(
+                        item_initial_price=new_bidding_form.new_bid
+                    )
                     new_bidding_form.save()
                 return render(
                     request,
@@ -130,9 +139,12 @@ def active_listing(request, id):
                         "listing": listing,
                         "bidding_form": bidding_form,
                         "comment_form": comment_form,
+                        "comments": comments,
                     },
                 )
-            elif comment_form.is_valid():
+
+            comment_form = comment_forms(request.POST)
+            if comment_form.is_valid() and "comment_form" in request.POST:
                 new_comment_form = comment_form.save(commit=False)
                 new_comment_form.auction_id = Auction_Listing.objects.get(id=id)
                 new_comment_form.user_id = request.user
@@ -144,8 +156,10 @@ def active_listing(request, id):
                         "listing": listing,
                         "bidding_form": bidding_form,
                         "comment_form": comment_form,
+                        "comments": comments,
                     },
                 )
+
             else:
                 return render(
                     request,
@@ -154,10 +168,16 @@ def active_listing(request, id):
                         "listing": listing,
                         "bidding_form": bidding_form,
                         "comment_form": comment_form,
+                        "comments": comments,
                     },
                 )
     return render(
         request,
         "auctions/listing.html",
-        {"listing": listing, "bidding_form": bids, "comment_form": comments},
+        {
+            "listing": listing,
+            "bidding_form": bids,
+            "comment_form": comments,
+            "comments": comments,
+        },
     )
