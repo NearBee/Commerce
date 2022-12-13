@@ -185,3 +185,8 @@ def active_listing(request, id):
             "comments": comments,
         },
     )
+
+
+@login_required(redirect_field_name="", login_url="login")
+def watchlist(request):
+    raise NotImplemented
