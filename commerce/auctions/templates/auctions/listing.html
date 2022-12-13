@@ -36,11 +36,19 @@
                 </form>
             </div>
         </div>
-        <div>
-            {% for comments in comment %}
-            {{ comments.user_id }}{{ comments }}
-            {% endfor %}
-        </div>
     </div>
+</div>
+<div>
+    {% for comment in comments %}
+
+    <ul>
+        <div class="col-2">
+            {{ comment.user_id }}:
+        </div>
+        <div class="col-xl-10">
+            {{ comment }}
+        </div>
+    </ul>
+    {% endfor %}
 </div>
 {% endblock %}

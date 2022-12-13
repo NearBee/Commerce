@@ -93,10 +93,12 @@ def active_listing(request, id):
     comments = Comment.objects.all().filter(auction_id=id)
     listing = Auction_Listing.objects.get(id=id)
     bids = bid_forms()
-    comments = comment_forms()
+    comment_form = comment_forms()
     if not request.user.is_authenticated:
         return render(
-            request, "auctions/listing.html", {"listing": listing, "comments": comments}
+            request,
+            "auctions/listing.html",
+            {"listing": listing, "comments": comments},
         )
 
     else:
@@ -132,6 +134,7 @@ def active_listing(request, id):
                         item_initial_price=new_bidding_form.new_bid
                     )
                     new_bidding_form.save()
+                    bidding_form = bid_forms()
                 return render(
                     request,
                     "auctions/listing.html",
@@ -149,6 +152,7 @@ def active_listing(request, id):
                 new_comment_form.auction_id = Auction_Listing.objects.get(id=id)
                 new_comment_form.user_id = request.user
                 new_comment_form.save()  # TODO: There has to be a cleaner way to do this possibly
+                comment_form = comment_forms()
                 return render(
                     request,
                     "auctions/listing.html",
@@ -177,7 +181,7 @@ def active_listing(request, id):
         {
             "listing": listing,
             "bidding_form": bids,
-            "comment_form": comments,
+            "comment_form": comment_form,
             "comments": comments,
         },
     )

@@ -86,3 +86,6 @@ class Comment(models.Model):
         help_text="Write a comment here about the item.",
         blank=True,
     )
+
+    def __str__(self) -> str:
+        return self.comments
