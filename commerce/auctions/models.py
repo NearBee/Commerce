@@ -18,6 +18,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=18, unique=True)
     password = models.CharField(max_length=18)
     email = models.CharField(max_length=30)
+    watchlist_item = models.ManyToManyField("Auction_Listing")
 
     def __str__(self):
         return self.username
@@ -89,8 +90,3 @@ class Comment(models.Model):
 
     def __str__(self) -> str:
         return self.comments
-
-
-class Watchlist(models.Model):
-    auction_id = models.ManyToManyField("user")
-    # TODO: Create a working relationship between user <-watchlist-> item
