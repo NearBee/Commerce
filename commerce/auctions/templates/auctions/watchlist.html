@@ -3,4 +3,7 @@
 {% block title %}Watchlist{% endblock %}
 
 {% block body %}
+{% for item in watchlisted_items %}
+{{ item }}
+{% endfor %}
 {% endblock %}

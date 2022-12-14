@@ -89,3 +89,8 @@ class Comment(models.Model):
 
     def __str__(self) -> str:
         return self.comments
+
+
+class Watchlist(models.Model):
+    auction_id = models.ManyToManyField("user")
+    # TODO: Create a working relationship between user <-watchlist-> item

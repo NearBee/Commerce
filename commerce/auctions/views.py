@@ -188,5 +188,9 @@ def active_listing(request, id):
 
 
 @login_required(redirect_field_name="", login_url="login")
-def watchlist(request):
-    raise NotImplemented
+def watchlist(request, id):
+    return render(
+        request,
+        "auctions/watchlist.html",
+        {"watchlisted_items": Auction_Listing.objects.all().filter(user_id=id)},
+    )
