@@ -90,19 +90,27 @@ def create_listing(request):
 
 
 def active_listing(request, id):
-    comments = Comment.objects.all().filter(auction_id=id)
+    user = request.user
     listing = Auction_Listing.objects.get(id=id)
     bids = bid_forms()
+    comments = Comment.objects.all().filter(auction_id=id)
     comment_form = comment_forms()
-    if not request.user.is_authenticated:
+    # watchlist_number accessed the already loaded listing and uses the ManytoMany through relation to return the count
+    watchlist_number = listing.watchers.count()
+    # TODO: Create a len(array) of length of users wishlisting item
+    if not user.is_authenticated:
         return render(
             request,
             "auctions/listing.html",
-            {"listing": listing, "comments": comments},
+            {
+                "listing": listing,
+                "comments": comments,
+                "watchlist_number": watchlist_number,
+            },
         )
 
     else:
-        if request.method == "POST" and request.user.is_authenticated:
+        if request.method == "POST" and user.is_authenticated:
             bidding_form = bid_forms(request.POST)
             if bidding_form.is_valid() and "bidding_form" in request.POST:
                 if (
@@ -122,13 +130,14 @@ def active_listing(request, id):
                             "bidding_form": bidding_form,
                             "comment_form": comment_form,
                             "comments": comments,
+                            "watchlist_number": watchlist_number,
                         },
                     )
 
                 else:
                     new_bidding_form = bidding_form.save(commit=False)
                     new_bidding_form.auction_id = Auction_Listing.objects.get(id=id)
-                    new_bidding_form.user_id = request.user
+                    new_bidding_form.user_id = user
                     # Updates the listings price to the new bid
                     Auction_Listing.objects.filter(id=id).update(
                         item_initial_price=new_bidding_form.new_bid
@@ -143,6 +152,7 @@ def active_listing(request, id):
                         "bidding_form": bidding_form,
                         "comment_form": comment_form,
                         "comments": comments,
+                        "watchlist_number": watchlist_number,
                     },
                 )
 
@@ -150,7 +160,7 @@ def active_listing(request, id):
             if comment_form.is_valid() and "comment_form" in request.POST:
                 new_comment_form = comment_form.save(commit=False)
                 new_comment_form.auction_id = Auction_Listing.objects.get(id=id)
-                new_comment_form.user_id = request.user
+                new_comment_form.user_id = user
                 new_comment_form.save()  # TODO: There has to be a cleaner way to do this possibly
                 comment_form = comment_forms()
                 return render(
@@ -161,9 +171,23 @@ def active_listing(request, id):
                         "bidding_form": bidding_form,
                         "comment_form": comment_form,
                         "comments": comments,
+                        "watchlist_number": watchlist_number,
                     },
                 )
 
+            if "watchlist_button" in request.POST:
+                user.watchlist_item.add(listing)
+                return render(
+                    request,
+                    "auctions/listing.html",
+                    {
+                        "listing": listing,
+                        "bidding_form": bids,
+                        "comment_form": comment_form,
+                        "comments": comments,
+                        "watchlist_number": watchlist_number,
+                    },
+                )
             else:
                 return render(
                     request,
@@ -173,6 +197,7 @@ def active_listing(request, id):
                         "bidding_form": bidding_form,
                         "comment_form": comment_form,
                         "comments": comments,
+                        "watchlist_number": watchlist_number,
                     },
                 )
     return render(
@@ -183,6 +208,7 @@ def active_listing(request, id):
             "bidding_form": bids,
             "comment_form": comment_form,
             "comments": comments,
+            "watchlist_number": watchlist_number,
         },
     )
 

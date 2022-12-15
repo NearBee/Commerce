@@ -18,7 +18,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=18, unique=True)
     password = models.CharField(max_length=18)
     email = models.CharField(max_length=30)
-    watchlist_item = models.ManyToManyField("Auction_Listing")
+    watchlist_item = models.ManyToManyField("Auction_Listing", related_name="watchers")
 
     def __str__(self):
         return self.username
