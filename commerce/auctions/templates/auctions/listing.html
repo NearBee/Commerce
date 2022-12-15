@@ -16,6 +16,15 @@
         <div class="col-md-8">
             <div class="card-body">
                 {{ listing.item_title }}
+                <form name="watchlist_item" type="submit" method="post">
+                    {% csrf_token %}
+                    <button type="submit" method="post" class="btn btn-outline-primary btn-sm" name="watchlist_button"
+                        value="Watch this item">Watch
+                        this item?
+                        <i class="bi bi-star-fill"></i>
+                    </button>
+                    <h1>{{ watchlist_number }} People watching currently!</h1>
+                </form>
             </div>
             <div class="card-body">
                 {{ listing.item_description }}
