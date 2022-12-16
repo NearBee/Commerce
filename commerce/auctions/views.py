@@ -190,6 +190,11 @@ def active_listing(request, id):
                         "watchlist_number": watchlist_number,
                     },
                 )
+
+            if "delete_button" in request.POST:
+                listing.delete()
+                return redirect("index")
+
             else:
                 return render(
                     request,
@@ -223,3 +228,7 @@ def watchlist(request, id):
         "auctions/watchlist.html",
         {"watchlisted_items": Auction_Listing.objects.filter(watchers=id)},
     )
+
+
+def categories(request):
+    return NotImplementedError
