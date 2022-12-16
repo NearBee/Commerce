@@ -143,18 +143,19 @@ def active_listing(request, id):
                         item_initial_price=new_bidding_form.new_bid
                     )
                     new_bidding_form.save()
+                    listing.item_initial_price = new_bidding_form.new_bid
                     bidding_form = bid_forms()
-                return render(
-                    request,
-                    "auctions/listing.html",
-                    {
-                        "listing": listing,
-                        "bidding_form": bidding_form,
-                        "comment_form": comment_form,
-                        "comments": comments,
-                        "watchlist_number": watchlist_number,
-                    },
-                )
+                    return render(
+                        request,
+                        "auctions/listing.html",
+                        {
+                            "listing": listing,
+                            "bidding_form": bidding_form,
+                            "comment_form": comment_form,
+                            "comments": comments,
+                            "watchlist_number": watchlist_number,
+                        },
+                    )
 
             comment_form = comment_forms(request.POST)
             if comment_form.is_valid() and "comment_form" in request.POST:
@@ -177,6 +178,7 @@ def active_listing(request, id):
 
             if "watchlist_button" in request.POST:
                 user.watchlist_item.add(listing)
+                watchlist_number = listing.watchers.count()
                 return render(
                     request,
                     "auctions/listing.html",
@@ -218,5 +220,5 @@ def watchlist(request, id):
     return render(
         request,
         "auctions/watchlist.html",
-        {"watchlisted_items": Auction_Listing.objects.all().filter(user_id=id)},
+        {"watchlisted_items": Auction_Listing.objects.filter(watchers=id)},
     )
