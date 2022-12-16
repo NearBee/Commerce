@@ -25,7 +25,7 @@ class User(AbstractUser):
 
 
 class Auction_Listing(models.Model):
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
