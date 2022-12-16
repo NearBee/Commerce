@@ -202,6 +202,7 @@ def active_listing(request, id):
                         "watchlist_number": watchlist_number,
                     },
                 )
+
     return render(
         request,
         "auctions/listing.html",
