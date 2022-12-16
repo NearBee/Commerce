@@ -4,6 +4,12 @@
 
 {% block body %}
 {% for item in watchlisted_items %}
-{{ item }}
+<li> <img class="img-thumbnail" src="{{ item.item_picture.url|default_if_none:'question_mark.png' }}" alt="No image"
+        height="100px" width="100px">
+    {{ item.item_title }}:
+    {{ item.item_description }} |
+    ${{ item.item_initial_price }}
+    <a href="{% url 'listing' item.id %}">Check out your watchlisted item!</a>
+</li>
 {% endfor %}
 {% endblock %}
