@@ -16,6 +16,9 @@
         <div class="col-md-8">
             <div class="card-body">
                 {{ listing.item_title }}
+                {% if user.id == listing.user.id %}
+                <button class="btn btn-outline-danger" type="submit">Delete</button>
+                {% endif %}
                 <form name="watchlist_item" type="submit" method="post">
                     {% csrf_token %}
                     <button type="submit" method="post" class="btn btn-outline-primary btn-sm" name="watchlist_button"
