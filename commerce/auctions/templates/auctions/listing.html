@@ -19,7 +19,7 @@
                     {% if user.id == listing.user.id %}
                     <form name="delete_button" type="submit" method="post">
                         {% csrf_token %}
-                        <button class="btn btn-outline-danger" type="submit">Delete</button>
+                        <button class="btn btn-outline-danger" name="delete_button" type="submit">Delete</button>
                     </form>
                     {% endif %}
                 </div>
