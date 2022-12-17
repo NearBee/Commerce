@@ -1,7 +1,9 @@
 {% extends "auctions/layout.html" %}
 
-{% block head %}{% endblock %}
+{% block title %}Categories{% endblock %}
 
 {% block body %}
-This page has just begun
+{% for category_name in categories %}
+<ul>{{ category_name }}: {{ category_number }}</ul>
+{% endfor %}
 {% endblock %}
