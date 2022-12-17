@@ -59,7 +59,7 @@ class Bid(models.Model):
     auction_id = models.ForeignKey(
         Auction_Listing, on_delete=models.CASCADE, null=False
     )
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
@@ -77,7 +77,7 @@ class Comment(models.Model):
     auction_id = models.ForeignKey(
         Auction_Listing, on_delete=models.CASCADE, null=False
     )
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
