@@ -80,7 +80,7 @@ def create_listing(request):
         if form.is_valid():
             # file is saved
             new_listing = form.save(commit=False)
-            new_listing.user_id = request.user
+            new_listing.user = request.user
             new_listing.save()
 
             return redirect("index")
@@ -95,9 +95,7 @@ def active_listing(request, id):
     bids = bid_forms()
     comments = Comment.objects.all().filter(auction_id=id)
     comment_form = comment_forms()
-    # watchlist_number accessed the already loaded listing and uses the ManytoMany through relation to return the count
     watchlist_number = listing.watchers.count()
-    # TODO: Create a len(array) of length of users wishlisting item
     if not user.is_authenticated:
         return render(
             request,
@@ -111,9 +109,9 @@ def active_listing(request, id):
 
     else:
         if request.method == "POST" and user.is_authenticated:
-            bidding_form = bid_forms(request.POST)
-            if bidding_form.is_valid() and "bidding_form" in request.POST:
-                if (
+            if "bidding_form" in request.POST:
+                bidding_form = bid_forms(request.POST)
+                if bidding_form.is_valid() and (
                     bidding_form.cleaned_data.get("new_bid")
                     < listing.item_initial_price
                 ):
@@ -122,91 +120,41 @@ def active_listing(request, id):
                     messages.warning(
                         request, "New bid amount must be higher than the posted one."
                     )
-                    return render(
-                        request,
-                        "auctions/listing.html",
-                        {
-                            "listing": listing,
-                            "bidding_form": bidding_form,
-                            "comment_form": comment_form,
-                            "comments": comments,
-                            "watchlist_number": watchlist_number,
-                        },
-                    )
+                    return redirect("listing", id=id)
 
                 else:
                     new_bidding_form = bidding_form.save(commit=False)
-                    new_bidding_form.auction_id = Auction_Listing.objects.get(id=id)
+                    new_bidding_form.auction_id = listing
                     new_bidding_form.user_id = user
                     # Updates the listings price to the new bid
                     Auction_Listing.objects.filter(id=id).update(
                         item_initial_price=new_bidding_form.new_bid
                     )
                     new_bidding_form.save()
-                    listing.item_initial_price = new_bidding_form.new_bid
-                    bidding_form = bid_forms()
-                    return render(
-                        request,
-                        "auctions/listing.html",
-                        {
-                            "listing": listing,
-                            "bidding_form": bidding_form,
-                            "comment_form": comment_form,
-                            "comments": comments,
-                            "watchlist_number": watchlist_number,
-                        },
-                    )
+                    return redirect("listing", id=id)
 
             comment_form = comment_forms(request.POST)
             if comment_form.is_valid() and "comment_form" in request.POST:
                 new_comment_form = comment_form.save(commit=False)
-                new_comment_form.auction_id = Auction_Listing.objects.get(id=id)
+                new_comment_form.auction_id = listing
                 new_comment_form.user_id = user
                 new_comment_form.save()  # TODO: There has to be a cleaner way to do this possibly
                 comment_form = comment_forms()
-                return render(
-                    request,
-                    "auctions/listing.html",
-                    {
-                        "listing": listing,
-                        "bidding_form": bidding_form,
-                        "comment_form": comment_form,
-                        "comments": comments,
-                        "watchlist_number": watchlist_number,
-                    },
-                )
+                return redirect("listing", id=id)
 
             if "watchlist_button" in request.POST:
                 user.watchlist_item.add(listing)
                 watchlist_number = listing.watchers.count()
-                return render(
-                    request,
-                    "auctions/listing.html",
-                    {
-                        "listing": listing,
-                        "bidding_form": bids,
-                        "comment_form": comment_form,
-                        "comments": comments,
-                        "watchlist_number": watchlist_number,
-                    },
-                )
+                return redirect("listing", id=id)
 
             if "delete_button" in request.POST:
-                listing.delete()
-                return redirect("index")
-
-            else:
-                return render(
-                    request,
-                    "auctions/listing.html",
-                    {
-                        "listing": listing,
-                        "bidding_form": bidding_form,
-                        "comment_form": comment_form,
-                        "comments": comments,
-                        "watchlist_number": watchlist_number,
-                    },
-                )
+                if user.id == listing.user.id:
+                    # TODO: Set a confirmation toast for this
+                    listing.delete()
+                    return redirect("index")
+                else:
+                    # TODO: Set a toast for this
+                    return redirect("index")
 
     return render(
         request,
@@ -232,3 +180,19 @@ def watchlist(request, id):
 
 def categories(request):
     return NotImplementedError
+
+
+#     category_dict_list = []
+#     category_dict = {"category_name":}
+#     category_names = []
+#     category_numbers = 0
+#     for categories, _ in Auction_Listing.CATEGORIES:
+#         category_names.append(categories)
+#     if Auction_Listing.objects.get("categories") in category_names:
+#         category_numbers += 1
+
+#     return render(
+#         request,
+#         "auctions/categories.html",
+#         {"categories": category_names, "category_number": category_numbers},
+#     )
