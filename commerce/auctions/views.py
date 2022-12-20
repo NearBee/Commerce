@@ -178,21 +178,14 @@ def watchlist(request, id):
     )
 
 
-def categories(request):
-    return NotImplementedError
-
-
-#     category_dict_list = []
-#     category_dict = {"category_name":}
-#     category_names = []
-#     category_numbers = 0
-#     for categories, _ in Auction_Listing.CATEGORIES:
-#         category_names.append(categories)
-#     if Auction_Listing.objects.get("categories") in category_names:
-#         category_numbers += 1
-
-#     return render(
-#         request,
-#         "auctions/categories.html",
-#         {"categories": category_names, "category_number": category_numbers},
-#     )
+def categories(request, item_category):
+    print(Auction_Listing.objects.all().filter(item_category="Electronics"))
+    return render(
+        request,
+        "auctions/categories.html",
+        {
+            "categories": Auction_Listing.objects.all().filter(
+                item_category=item_category
+            )
+        },
+    )
