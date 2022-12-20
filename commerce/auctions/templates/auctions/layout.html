@@ -9,6 +9,10 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -24,18 +28,32 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'categories' %}">Categories Search</a>
-        </li>
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="categories" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Categories Search
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'categories' 'Electronics' %}">Electronics</a>
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'categories' 'Toys' %}">Toys</a></li>
+                    <li><a class="dropdown-item" href="{% url 'categories' 'Home Essentials' %}">Home Essentials</a>
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'categories' 'Fashion' %}">Fashion</a></li>
+                    <li><a class="dropdown-item" href="{% url 'categories' 'ETC.' %}">ETC.</a></li>
+                </ul>
+            </li>
+        </ul>
         {% if user.is_authenticated %}
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-        </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'createlisting' %}">Create a Listing</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'watchlist' user.id %}">Watchlist</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
         </li>
         {% else %}
         <li class="nav-item">
