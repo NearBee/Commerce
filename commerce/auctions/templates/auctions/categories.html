@@ -1,9 +1,24 @@
 {% extends "auctions/layout.html" %}
 
-{% block title %}Categories{% endblock %}
+{% block title %}Category Search: {{ category_item }}{% endblock %}
 
 {% block body %}
-{% for category_name in categories %}
-<ul>{{ category_name }}: {{ category_number }}</ul>
+
+{% if categories %}
+
+{% for category_item in categories %}
+<li> <img class="img-thumbnail" src="{{ category_item.item_picture.url|default_if_none:'question_mark.png' }}"
+        alt="No image" height="100px" width="100px">
+    {{ category_item.item_title }}:
+    {{ category_item.item_description }} |
+    ${{ category_item.item_initial_price }}
+    <a href="{% url 'listing' category_item.id %}">Check out this item!</a>
+</li>
 {% endfor %}
+
+{% else %}
+<h1>Sorry there is no items under this category!</h1>
+{% endif %}
+<!-- Have to make an IF for null items due to category being not necessary -->
+
 {% endblock %}
