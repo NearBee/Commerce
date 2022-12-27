@@ -1,9 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -95,7 +94,7 @@ def active_listing(request, id):
     bids = bid_forms()
     comments = Comment.objects.all().filter(auction_id=id)
     comment_form = comment_forms()
-    watchlist_number = listing.watchers.count()
+    watchlist_number = listing.watchers.count()  # type: ignore
     if not user.is_authenticated:
         return render(
             request,
@@ -115,8 +114,6 @@ def active_listing(request, id):
                     bidding_form.cleaned_data.get("new_bid")
                     < listing.item_initial_price
                 ):
-                    # TODO: Possibly change Auction listing model to include bet
-                    # Then have the values check against eachother in validation
                     messages.warning(
                         request, "New bid amount must be higher than the posted one."
                     )
@@ -144,12 +141,11 @@ def active_listing(request, id):
 
             if "watchlist_button" in request.POST:
                 user.watchlist_item.add(listing)
-                watchlist_number = listing.watchers.count()
+                watchlist_number = listing.watchers.count()  # type: ignore
                 return redirect("listing", id=id)
 
             if "delete_button" in request.POST:
-                if user.id == listing.user.id:
-                    # TODO: Set a confirmation toast for this
+                if user.id == listing.user.id:  # type: ignore                    # TODO: Set a confirmation toast for this
                     listing.delete()
                     return redirect("index")
                 else:
@@ -170,6 +166,9 @@ def active_listing(request, id):
 
 
 @login_required(redirect_field_name="", login_url="login")
+# Button to remove the washlisted item from the user's watchlist
+
+
 def watchlist(request, id):
     return render(
         request,
@@ -179,7 +178,6 @@ def watchlist(request, id):
 
 
 def categories(request, item_category):
-    print(Auction_Listing.objects.all().filter(item_category="Electronics"))
     return render(
         request,
         "auctions/categories.html",
