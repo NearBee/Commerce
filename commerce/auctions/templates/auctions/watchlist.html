@@ -4,12 +4,25 @@
 
 {% block body %}
 {% for item in watchlisted_items %}
-<li> <img class="img-thumbnail" src="{{ item.item_picture.url|default_if_none:'question_mark.png' }}" alt="No image"
-        height="100px" width="100px">
-    {{ item.item_title }}:
-    {{ item.item_description }} |
-    ${{ item.item_initial_price }}
-    <a href="{% url 'listing' item.id %}">Check out your watchlisted item!</a>
-</li>
+<ul>
+    <div class="container text-left">
+        <div class="row row-cols-2 align-items-center">
+            <div class="col-md-10 text-left">
+                <img class="img-thumbnail" src="{{ item.item_picture.url|default_if_none:'question_mark.png' }}"
+                    alt="No image" height="100px" width="100px">
+                {{ item.item_title }}:
+                {{ item.item_description }} |
+                ${{ item.item_initial_price }}
+                <a href="{% url 'listing' item.id %}">Check out your watchlisted item!</a>
+            </div>
+            <div class="col-md-2 text-right">
+                <form name="remove_button" type="submit" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger" name="remove_button" type="submit">Remove</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</ul>
 {% endfor %}
 {% endblock %}
