@@ -166,15 +166,19 @@ def active_listing(request, id):
 
 
 @login_required(redirect_field_name="", login_url="login")
-# Button to remove the washlisted item from the user's watchlist
-
-
 def watchlist(request, id):
-    return render(
-        request,
-        "auctions/watchlist.html",
-        {"watchlisted_items": Auction_Listing.objects.filter(watchers=id)},
-    )
+    # Button to remove the watchlisted item from the user's watchlist
+    user = request.user
+    if "remove_button" in request.POST:
+        print(Auction_Listing.objects.get())
+        # user.watchlist_item.remove(Auction_Listing.objects.get(id=))
+
+    else:
+        return render(
+            request,
+            "auctions/watchlist.html",
+            {"watchlisted_items": Auction_Listing.objects.filter(watchers=id)},
+        )
 
 
 def categories(request, item_category):
