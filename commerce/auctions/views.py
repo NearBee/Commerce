@@ -140,15 +140,15 @@ def active_listing(request, id):
                 return redirect("listing", id=id)
 
             if "watchlist_button" in request.POST:
-                user.watchlist_item.add(listing)
                 watchlist_number = listing.watchers.count()  # type: ignore
-                if user.watchlist_item == listing.watchers.filter(
-                    watchlist_item__id=user.id
+                if (
+                    user
+                    == listing.watchers.filter(username__exact=user.username).first()
                 ):
-                    # TODO: Finish clicking the "Watch This Item" again to stop watching
-                    print("Already a watcher")
+                    listing.watchers.remove(user)
                     return redirect("listing", id=id)
                 else:
+                    user.watchlist_item.add(listing)
                     print("Not a watcher, OR this function is broken")
                     return redirect("listing", id=id)
 
