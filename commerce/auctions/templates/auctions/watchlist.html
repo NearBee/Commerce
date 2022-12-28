@@ -15,12 +15,13 @@
                 ${{ item.item_initial_price }}
                 <a href="{% url 'listing' item.id %}">Check out your watchlisted item!</a>
             </div>
-            <div class="col-md-2 text-right">
+            <!-- <div class="col-md-2 text-right">
                 <form name="remove_button" type="submit" method="post">
                     {% csrf_token %}
                     <button class="btn btn-outline-danger" name="remove_button" type="submit">Remove</button>
                 </form>
             </div>
+            Delete button if needed for watchlist deletion implementation -->
         </div>
     </div>
 </ul>
