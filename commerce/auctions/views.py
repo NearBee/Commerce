@@ -142,10 +142,19 @@ def active_listing(request, id):
             if "watchlist_button" in request.POST:
                 user.watchlist_item.add(listing)
                 watchlist_number = listing.watchers.count()  # type: ignore
-                return redirect("listing", id=id)
+                if user.watchlist_item == listing.watchers.filter(
+                    watchlist_item__id=user.id
+                ):
+                    # TODO: Finish clicking the "Watch This Item" again to stop watching
+                    print("Already a watcher")
+                    return redirect("listing", id=id)
+                else:
+                    print("Not a watcher, OR this function is broken")
+                    return redirect("listing", id=id)
 
             if "delete_button" in request.POST:
-                if user.id == listing.user.id:  # type: ignore                    # TODO: Set a confirmation toast for this
+                if user.id == listing.user.id:  # type: ignore
+                    # TODO: Set a confirmation toast for this
                     listing.delete()
                     return redirect("index")
                 else:
@@ -170,7 +179,7 @@ def watchlist(request, id):
     # Button to remove the watchlisted item from the user's watchlist
     user = request.user
     if "remove_button" in request.POST:
-        print(Auction_Listing.objects.get())
+        print(user.watchlist_item.get(item_title=request.POST[item.item_title]))
         # user.watchlist_item.remove(Auction_Listing.objects.get(id=))
 
     else:
