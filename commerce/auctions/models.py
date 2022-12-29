@@ -30,18 +30,22 @@ class Auction_Listing(models.Model):
         on_delete=models.SET_NULL,
         null=True,
     )
+
     item_title = models.CharField(
         max_length=50, blank=False, help_text="50 Character limit"
     )
+
     item_description = models.TextField(max_length=500, blank=False)
     item_initial_price = models.IntegerField(
         default=1,
         validators=[MinValueValidator(1), MaxValueValidator(1000)],
         blank=False,
     )
+
     item_picture = models.ImageField(
         default="question_mark.png",
     )
+
     CATEGORIES = (
         ("Electronics", "Electronics"),
         ("Toys", "Toys"),
@@ -49,6 +53,7 @@ class Auction_Listing(models.Model):
         ("Fashion", "Fashion"),
         ("ETC.", "ETC."),
     )
+
     item_category = models.CharField(max_length=15, choices=CATEGORIES, blank=True)
 
     def __str__(self):
@@ -59,11 +64,13 @@ class Bid(models.Model):
     auction_id = models.ForeignKey(
         Auction_Listing, on_delete=models.CASCADE, null=False
     )
+
     user = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
     )
+
     new_bid = models.IntegerField(
         validators=[
             MinValueValidator(1),
@@ -77,11 +84,13 @@ class Comment(models.Model):
     auction_id = models.ForeignKey(
         Auction_Listing, on_delete=models.CASCADE, null=False
     )
+
     user = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
     )
+
     comments = models.TextField(
         max_length=255,
         help_text="Write a comment here about the item.",
