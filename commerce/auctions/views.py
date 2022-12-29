@@ -149,7 +149,6 @@ def active_listing(request, id):
                     return redirect("listing", id=id)
                 else:
                     user.watchlist_item.add(listing)
-                    print("Not a watcher, OR this function is broken")
                     return redirect("listing", id=id)
 
             if "delete_button" in request.POST:
