@@ -36,6 +36,7 @@ class Auction_Listing(models.Model):
     )
 
     item_description = models.TextField(max_length=500, blank=False)
+
     item_initial_price = models.IntegerField(
         default=1,
         validators=[MinValueValidator(1), MaxValueValidator(1000)],
