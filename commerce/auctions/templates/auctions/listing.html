@@ -15,14 +15,6 @@
         </div>
         <div class="col-md-8">
             <div class="card-body">
-                <div class="d-grid d-md-flex justify-content-md-end">
-                    {% if user.id == listing.user.id %}
-                    <form name="delete_button" type="submit" method="post">
-                        {% csrf_token %}
-                        <button class="btn btn-outline-danger" name="delete_button" type="submit">Delete</button>
-                    </form>
-                    {% endif %}
-                </div>
                 {{ listing.item_title }}
                 <form name="watchlist_item" type="submit" method="post">
                     {% csrf_token %}
