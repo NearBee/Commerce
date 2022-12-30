@@ -122,7 +122,7 @@ def active_listing(request, id):
                 else:
                     new_bidding_form = bidding_form.save(commit=False)
                     new_bidding_form.auction_id = listing
-                    new_bidding_form.user_id = user
+                    new_bidding_form.user = user
                     # Updates the listings price to the new bid
                     Auction_Listing.objects.filter(id=id).update(
                         item_initial_price=new_bidding_form.new_bid
@@ -134,7 +134,7 @@ def active_listing(request, id):
             if comment_form.is_valid() and "comment_form" in request.POST:
                 new_comment_form = comment_form.save(commit=False)
                 new_comment_form.auction_id = listing
-                new_comment_form.user_id = user
+                new_comment_form.user = user
                 new_comment_form.save()  # TODO: There has to be a cleaner way to do this possibly
                 comment_form = comment_forms()
                 return redirect("listing", id=id)
