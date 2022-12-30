@@ -16,35 +16,44 @@
         <div class="col-md-8">
             <div class="card-body">
                 {{ listing.item_title }}
-                <form name="watchlist_item" type="submit" method="post">
-                    {% csrf_token %}
-                    <button type="submit" method="post" class="btn btn-outline-primary btn-sm" name="watchlist_button"
-                        value="Watch this item">Watch
-                        this item?
-                        <i class="bi bi-star-fill"></i>
-                    </button>
-                </form>
-                <div class="col-md-4 text-right">
-                    <b>{{ watchlist_number }} People watching currently!</b>
+                <div class="row row-cols-2">
+                    <div class="col-md-3">
+                        <form name="watchlist_item" type="submit" method="post">
+                            {% csrf_token %}
+                            <button type="submit" method="post" class="btn btn-outline-primary btn-sm"
+                                name="watchlist_button" value="Watch this item">Watch
+                                this item?
+                                <i class="bi bi-star-fill"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-md-5">
+                        <b>{{ watchlist_number }} People watching currently!</b>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
                 {{ listing.item_description }}
             </div>
             <div class="card-body">
-                ${{ listing.item_initial_price }}
-                <form name="bidding_form" type="submit" method="post">
-                    {% csrf_token %}
-                    {{ bidding_form }}
-                    <input class="btn btn-primary" type="submit" name="bidding_form" value="Submit Bid!">
-                </form>
+                <div class="row row-cols-3 align-items-center">
+                    <b class="col-md-2 text-center">Current Bid:</b>
+                    <i class="col-md-2 text-start">${{listing.item_initial_price }}</i>
+                    <form class="col-md-8" name="bidding_form" type="submit" method="post">
+                        {% csrf_token %}
+                        {{ bidding_form }}
+                        <input class="btn btn-primary" type="submit" name="bidding_form" value="Submit Bid!">
+                    </form>
+                </div>
             </div>
-            <div>
-                <form name="comment_form" type="submit" method="post">
-                    {% csrf_token %}
-                    {{ comment_form }}
-                    <input class="btn btn-primary" type="submit" name="comment_form" value="Submit Comment!">
-                </form>
+            <div class="card-body">
+                <div class="row row-cols-3">
+                    <form class="col-md-8" name="comment_form" type="submit" method="post">
+                        {% csrf_token %}
+                        {{ comment_form }}
+                        <input class="btn btn-primary" type="submit" name="comment_form" value="Submit Comment!">
+                    </form>
+                </div>
             </div>
         </div>
     </div>
