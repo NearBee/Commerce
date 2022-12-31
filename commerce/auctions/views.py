@@ -158,7 +158,7 @@ def active_listing(request, id):
                     # TODO: Set a confirmation toast for this
                     listing.winner = Bid.objects.filter(auction_id=id).last().user
                     listing.save()
-                    return redirect("finishedauctions")
+                    return redirect("closedauctions")
                 else:
                     # TODO: Set a toast for this
                     return redirect("index")
@@ -203,9 +203,9 @@ def categories(request, item_category):
     )
 
 
-def finished_auctions(request):
+def closed_auctions(request):
     return render(
         request,
-        "auctions/finishedauctions.html",
+        "auctions/closedauctions.html",
         {"listings": Auction_Listing.objects.exclude(winner__isnull=True)},
     )
