@@ -6,13 +6,15 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import User, Auction_Listing, Comment
+from .models import User, Auction_Listing, Comment, Bid
 from .forms import create_listing_forms, bid_forms, comment_forms
 
 
 def index(request):
     return render(
-        request, "auctions/index.html", {"listings": Auction_Listing.objects.all()}
+        request,
+        "auctions/index.html",
+        {"listings": Auction_Listing.objects.exclude(winner__isnull=False)},
     )
 
 
@@ -135,7 +137,7 @@ def active_listing(request, id):
                 new_comment_form = comment_form.save(commit=False)
                 new_comment_form.auction_id = listing
                 new_comment_form.user = user
-                new_comment_form.save()  # TODO: There has to be a cleaner way to do this possibly
+                new_comment_form.save()
                 comment_form = comment_forms()
                 return redirect("listing", id=id)
 
@@ -143,9 +145,9 @@ def active_listing(request, id):
                 watchlist_number = listing.watchers.count()  # type: ignore
                 if (
                     user
-                    == listing.watchers.filter(username__exact=user.username).first()
+                    == listing.watchers.filter(username__exact=user.username).first()  # type: ignore
                 ):
-                    listing.watchers.remove(user)
+                    listing.watchers.remove(user)  # type: ignore
                     return redirect("listing", id=id)
                 else:
                     user.watchlist_item.add(listing)
@@ -154,8 +156,9 @@ def active_listing(request, id):
             if "delete_button" in request.POST:
                 if user.id == listing.user.id:  # type: ignore
                     # TODO: Set a confirmation toast for this
-                    listing.delete()
-                    return redirect("index")
+                    listing.winner = Bid.objects.filter(auction_id=id).last().user
+                    listing.save()
+                    return redirect("finishedauctions")
                 else:
                     # TODO: Set a toast for this
                     return redirect("index")
@@ -179,7 +182,6 @@ def watchlist(request, id):
     user = request.user
     if "remove_button" in request.POST:
         print(user.watchlist_item.get(item_title=request.POST[item.item_title]))
-        # user.watchlist_item.remove(Auction_Listing.objects.get(id=))
 
     else:
         return render(
@@ -198,4 +200,12 @@ def categories(request, item_category):
                 item_category=item_category
             )
         },
+    )
+
+
+def finished_auctions(request):
+    return render(
+        request,
+        "auctions/finishedauctions.html",
+        {"listings": Auction_Listing.objects.exclude(winner__isnull=True)},
     )
