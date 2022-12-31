@@ -57,10 +57,12 @@ class Auction_Listing(models.Model):
 
     item_category = models.CharField(max_length=15, choices=CATEGORIES, blank=True)
 
-    winner = models.CharField(
-        max_length=50,
+    winner = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
         default=None,
         null=True,
+        related_name="winning_user",
     )
 
     def __str__(self):
