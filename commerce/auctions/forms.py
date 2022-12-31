@@ -6,7 +6,7 @@ class create_listing_forms(forms.ModelForm):
     class Meta:
         model = Auction_Listing
         fields = "__all__"
-        exclude = ["user"]
+        exclude = ["user", "winner"]
 
 
 class bid_forms(forms.ModelForm):
