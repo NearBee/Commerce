@@ -57,6 +57,12 @@ class Auction_Listing(models.Model):
 
     item_category = models.CharField(max_length=15, choices=CATEGORIES, blank=True)
 
+    winner = models.CharField(
+        max_length=50,
+        default=None,
+        null=True,
+    )
+
     def __str__(self):
         return self.item_title
 
@@ -79,6 +85,9 @@ class Bid(models.Model):
         ],
         blank=True,
     )
+
+    def __str__(self):
+        return f"{self.auction_id}: {self.user} ${self.new_bid}"
 
 
 class Comment(models.Model):
