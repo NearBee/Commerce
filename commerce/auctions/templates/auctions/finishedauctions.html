@@ -1,0 +1,19 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Finished Auctions{% endblock %}
+
+{% block body %}
+
+<h2>Closed Listings</h2>
+
+<ul>
+    {% for listing in listings %}
+    <ul> <img class="img-thumbnail" src="{{ listing.item_picture.url|default_if_none:'question_mark.png' }}"
+            alt="No image" height="100px" width="100px">
+        {{ listing.item_title }}:
+        <strong> The winning bid is!</strong> ${{ listing.item_initial_price }} by {{ listing.winner }}
+    </ul>
+    {% endfor %}
+</ul>
+
+{% endblock %}
