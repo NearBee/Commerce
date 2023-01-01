@@ -105,9 +105,15 @@ class Comment(models.Model):
 
     comments = models.TextField(
         max_length=255,
-        help_text="Write a comment here about the item.",
         blank=True,
+        widget=models.Textarea(attrs={"style": "height: 200px; width: 300px;"}),
     )
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields["comments"].widget = models.Textarea(
+    #         attrs={"style": "height: 100px; width: 200px"}
+    #     )
 
     def __str__(self) -> str:
         return self.comments
