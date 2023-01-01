@@ -1,3 +1,35 @@
 body {
     padding: 10px;
 }
+
+#nav_bar {
+    justify-content: space-between;
+}
+
+#nav_options {
+    min-width: 750px;
+}
+
+#close_auction {
+    display: flex;
+    justify-content: end;
+    padding-right: 15px;
+    max-width: 200px;
+    min-width: 200px;
+}
+
+#item_name {
+    padding-bottom: 10px;
+}
+
+#watchlist_row {
+    justify-content: space-between;
+}
+
+#watchlist_button {
+    min-width: 140px;
+}
+
+#watchlist_counter {
+    min-width: 250px;
+}
