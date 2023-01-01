@@ -24,8 +24,8 @@
         Not signed in.
         {% endif %}
     </div>
-    <div class="row row-cols-2">
-        <ul class="nav">
+    <div class="row row-cols-2" id="nav_bar">
+        <ul class="nav" id="nav_options">
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
             </li>
@@ -69,14 +69,14 @@
             {% endif %}
         </ul>
         {% if user.is_authenticated %}
-        <div class="nav-item" style="display: flex; justify-content: end; padding-right: 15px;">
+        <ul id="close_auction">
             {% if user.id == listing.user.id %}
             <form name="delete_button" type="submit" method="post">
                 {% csrf_token %}
                 <button class="btn btn-outline-danger" name="delete_button" type="submit">Delete Auction</button>
             </form>
             {% endif %}
-        </div>
+        </ul>
         {% endif %}
     </div>
     <hr>
