@@ -1,5 +1,4 @@
 from django.contrib.auth.models import AbstractUser
-from django.core.files.storage import FileSystemStorage
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
