@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import Textarea
 from .models import Auction_Listing, Bid, Comment
 
 
@@ -21,3 +22,8 @@ class comment_forms(forms.ModelForm):
         model = Comment
         field = "__all__"
         exclude = ["user", "auction_id"]
+        widgets = {
+            "comments": Textarea(
+                attrs={"style": "height: 100px; width: 500px; resize: initial;"}
+            ),
+        }
