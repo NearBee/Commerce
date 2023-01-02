@@ -110,11 +110,5 @@ class Comment(models.Model):
         blank=True,
     )
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields["comments"].widget = Textarea(
-    #         attrs={"style": "height: 200px; width: 300px;"}
-    #     )
-
     def __str__(self) -> str:
         return self.comments
