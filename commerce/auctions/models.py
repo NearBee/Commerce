@@ -3,6 +3,8 @@ from django.core.files.storage import FileSystemStorage
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
+# from django.forms import Textarea
+
 # Remember that each time you change anything in auctions/models.py, you’ll need to first run python
 # manage.py makemigrations and then python manage.py migrate to migrate those changes to your database.
 
@@ -106,13 +108,12 @@ class Comment(models.Model):
     comments = models.TextField(
         max_length=255,
         blank=True,
-        widget=models.Textarea(attrs={"style": "height: 200px; width: 300px;"}),
     )
 
     # def __init__(self, *args, **kwargs):
     #     super().__init__(*args, **kwargs)
-    #     self.fields["comments"].widget = models.Textarea(
-    #         attrs={"style": "height: 100px; width: 200px"}
+    #     self.fields["comments"].widget = Textarea(
+    #         attrs={"style": "height: 200px; width: 300px;"}
     #     )
 
     def __str__(self) -> str:
