@@ -3,73 +3,104 @@
 {% block title %}{{ listing.item_title }}{% endblock %}
 
 {% block body %}
-<div>
-    {{ listing.user }}
+<div id="auction_creator">
+    <strong>Seller: </strong><i>{{ listing.user }}</i>
 </div>
 
-<div class="card mb-3">
-    <div class="row g-0">
-        <div class="col-md-4">
-            <img class="img=fluid rounded-start" src="{{ listing.item_picture.url }}" alt="No image" height="300px"
-                width="300px">
-        </div>
-        <div class="col-md-8">
-            <div class="card-body">
-                <div id="item_name" class="row g-0 col-12">{{ listing.item_title }}</div>
-                <div id="watchlist_row" class="row row-cols-2">
-                    <div class="col-md-3">
-                        <form name="watchlist_item" type="submit" method="post">
+<div id="whole_card" class="row g-0 justify-content-center">
+    <div id="listing_card" class="card mb-3">
+        <div id="listing_card_length" class="row justify-content-center">
+            <div id="img_bid_row" class="row">
+                <div id="img_col" class="col-md-4">
+                    <img class="img=fluid rounded-start" src="{{ listing.item_picture.url }}" alt="No image"
+                        height="300px" width="300px">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <div id="item_name" class="row g-0 col-12">{{ listing.item_title }}</div>
+                        <div id="watchlist_row" class="row row-cols-2">
+                            <div class="col-4">
+                                <form name="watchlist_item" type="submit" method="post">
+                                    {% csrf_token %}
+                                    <button id="watchlist_button" type="submit" method="post"
+                                        class="btn btn-outline-primary btn-sm" name="watchlist_button"
+                                        value="Watch this item">Watch
+                                        this item?
+                                        <i class="bi bi-star-fill"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <div id="watchlist_counter" class="col-md-5">
+                                <b>{{ watchlist_number }} People watching currently!</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {{ listing.item_description }}
+                    </div>
+                    <div class="card-body">
+                        <div id="bidding_row" class="row row-cols-3 align-items-center justify-content-start">
+                            <b class="col-3 text-center">Current Bid:</b>
+                            <i class="col-2 text-start">${{listing.item_initial_price }}</i>
+                            <form class="col-md-4" name="bidding_form" type="submit" method="post">
+                                {% csrf_token %}
+                                {{ bidding_form }}
+                                <div id="bidding_button" class="row justify-content-end">
+                                    <div>
+                                        <input id="listing_buttons" class="btn btn-primary btn-sm" type="submit"
+                                            name="bidding_form" value="Submit Bid!">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="comment_row" class="row">
+                <div class="card-body">
+                    <div class="row justify-content-start">
+                        <form class="col-md-12" name="comment_form" type="submit" method="post">
                             {% csrf_token %}
-                            <button id="watchlist_button" type="submit" method="post"
-                                class="btn btn-outline-primary btn-sm" name="watchlist_button"
-                                value="Watch this item">Watch
-                                this item?
-                                <i class="bi bi-star-fill"></i>
-                            </button>
+                            {{ comment_form }}
+                            <div id="comment_button" class="row justify-content-end">
+                                <div>
+                                    <input id="listing_buttons" class="btn btn-primary btn-sm" type="submit"
+                                        name="comment_form" value="Submit Comment!">
+                                </div>
+                            </div>
                         </form>
                     </div>
-                    <div id="watchlist_counter" class="col-md-5">
-                        <b>{{ watchlist_number }} People watching currently!</b>
+                </div>
+            </div>
+            <div id="comment_section" class="row">
+                <div id="comments" class="card-body">
+                    <hr class="border border-1 opacity-50">
+                    {% for comment in comments %}
+
+                    <p>
+                    <div id="username_date" class="row col-md-12">
+                        <i>{{ comment.user }}:</i>
+                        <sub class="col-2 justify-content-end">{{ comment.created_at }}</sub>
                     </div>
-                </div>
-            </div>
-            <div class="card-body">
-                {{ listing.item_description }}
-            </div>
-            <div class="card-body">
-                <div class="row row-cols-3 align-items-center">
-                    <b class="col-md-2 text-center">Current Bid:</b>
-                    <i class="col-md-2 text-start">${{listing.item_initial_price }}</i>
-                    <form class="col-md-8" name="bidding_form" type="submit" method="post">
-                        {% csrf_token %}
-                        {{ bidding_form }}
-                        <input class="btn btn-primary" type="submit" name="bidding_form" value="Submit Bid!">
-                    </form>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="row row-cols-3">
-                    <form class="col-md-8" name="comment_form" type="submit" method="post">
-                        {% csrf_token %}
-                        {{ comment_form }}
-                        <input class="btn btn-primary" type="submit" name="comment_form" value="Submit Comment!">
-                    </form>
+                    <div id="user_comment" class="row col-md-12">
+                        {{ comment }}
+                    </div>
+                    </p>
+
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div>
-    {% for comment in comments %}
-
-    <ul>
-        <div class="col-2">
-            {{ comment.user }}:
-        </div>
-        <div class="col-xl-10">
-            {{ comment }}
-        </div>
-    </ul>
-    {% endfor %}
 </div>
+</div>
+
+<!-- <script>
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const templateVariables = {
+        'timezone': timezone
+    };
+</script> -->
+<!-- Mess around with setting the timezone to the user's timezone -->
 {% endblock %}
