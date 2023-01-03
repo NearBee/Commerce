@@ -105,8 +105,12 @@ class Comment(models.Model):
     )
 
     comments = models.TextField(
-        max_length=255,
+        max_length=500,
         blank=True,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
     )
 
     def __str__(self) -> str:
