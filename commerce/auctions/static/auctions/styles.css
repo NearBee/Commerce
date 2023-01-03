@@ -10,6 +10,29 @@ body {
     min-width: 750px;
 }
 
+#whole_card {
+    min-width: 520px;
+    max-width: 2000px;
+}
+
+#listing_card {
+    min-width: 520px;
+    max-width: 1000px;
+}
+
+#listing_card_length {
+    max-width: 1000px;
+}
+
+#auction_creator {
+    padding-bottom: 5px;
+}
+
+#img_col {
+    min-width: 330px;
+    max-width: 330px;
+}
+
 #close_auction {
     display: flex;
     justify-content: end;
@@ -23,7 +46,10 @@ body {
 }
 
 #watchlist_row {
-    justify-content: space-between;
+    justify-content: start;
+    min-width: 490px;
+    width: 620px;
+    max-width: 1115px;
 }
 
 #watchlist_button {
@@ -32,4 +58,49 @@ body {
 
 #watchlist_counter {
     min-width: 250px;
+}
+
+#bidding_row {
+    min-width: 490px;
+    width: 490px;
+    max-width: 1115px;
+}
+
+#bidding_button {
+    width: 165px;
+    padding-top: 10px;
+}
+
+#comment_button {
+    min-width: 490px;
+    max-width: 925px;
+    width: 103%;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+#comments {
+    min-width: 490px;
+    max-width: 972px;
+}
+
+#comment_row,
+#comment_section {
+    min-width: 490px;
+    width: 95%;
+    max-width: 972px;
+}
+
+#username_date {
+    justify-content: space-between;
+}
+
+sub {
+    font-size: 10px;
+    opacity: 0.5;
+}
+
+#user_comment {
+    /* border-top: .25px dotted black; */
+    padding-left: 25px;
 }
