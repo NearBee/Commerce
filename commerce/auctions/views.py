@@ -1,13 +1,15 @@
+import pytz
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils import timezone
 
-from .models import User, Auction_Listing, Comment, Bid
-from .forms import create_listing_forms, bid_forms, comment_forms
+from .forms import bid_forms, comment_forms, create_listing_forms
+from .models import Auction_Listing, Bid, Comment, User
 
 
 def index(request):
@@ -49,6 +51,7 @@ def register(request):
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
+        timezone = request.POST["timezone"]
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -61,6 +64,8 @@ def register(request):
         # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)  # type: ignore
+            tz = pytz.timezone(timezone)
+            user.timezone = tz
             user.save()
         except IntegrityError:
             return render(
@@ -71,7 +76,8 @@ def register(request):
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "auctions/register.html")
+        timezones = pytz.common_timezones
+        return render(request, "auctions/register.html", {"timezones": timezones})
 
 
 @login_required(redirect_field_name="", login_url="login")
