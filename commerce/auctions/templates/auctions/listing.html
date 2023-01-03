@@ -1,4 +1,5 @@
 {% extends "auctions/layout.html" %}
+{% load tz %}
 
 {% block title %}{{ listing.item_title }}{% endblock %}
 
@@ -80,7 +81,15 @@
                     <p>
                     <div id="username_date" class="row col-md-12">
                         <i>{{ comment.user }}:</i>
+                        {% if user.timezone is UTC %}
+
+                        {% timezone user.timezone %}
                         <sub class="col-2 justify-content-end">{{ comment.created_at }}</sub>
+                        {% endtimezone %}
+
+                        {% else %}
+                        <sub class="col-2 justify-content-end">{{ comment.created_at }}</sub>
+                        {% endif %}
                     </div>
                     <div id="user_comment" class="row col-md-12">
                         {{ comment }}
