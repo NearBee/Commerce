@@ -81,7 +81,7 @@
                     <p>
                     <div id="username_date" class="row col-md-12">
                         <i>{{ comment.user }}:</i>
-                        {% if user.timezone is UTC %}
+                        {% if user.timezone %}
 
                         {% timezone user.timezone %}
                         <sub class="col-2 justify-content-end">{{ comment.created_at }}</sub>
