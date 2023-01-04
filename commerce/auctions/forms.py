@@ -44,8 +44,6 @@ class Input_Group_Widget(Widget):
         else:
             type = "text"
 
-        print(type)
-
         return mark_safe(
             (
                 f'<div class="input-group mb-3" {style}>'
