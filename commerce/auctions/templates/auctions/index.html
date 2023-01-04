@@ -2,17 +2,36 @@
 
 {% block body %}
 <h2>Active Listings</h2>
-<ul>
-    {% for listing in listings %}
-    <li> <img class="img-thumbnail" src="{{ listing.item_picture.url|default_if_none:'question_mark.png' }}"
-            alt="No image" height="100px" width="100px">
-        {{ listing.item_title }}:
-        {{ listing.item_description }} |
-        ${{ listing.item_initial_price }}
-        <a href="{% url 'listing' listing.id %}">Check out this item!</a>
-    </li>
-    {% endfor %}
-</ul>
+<div id="listing_cards" class="row g-0 justify-content-center">
+    <ul id="index_list">
+        {% for listing in listings %}
+        <ul style="padding: 10px 0 10px 0;">
+            <div class="card mb-6" style="max-width: 1000px;">
+                <div class="row g-0">
+                    <div id="index_image_col" class="col-md-2">
+                        <img id="index_image" class="img-thumbnail"
+                            src="{{ listing.item_picture.url|default_if_none:'question_mark.png' }}" alt="No image">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ listing.item_title }}:</h5>
+                            <p id="index_item_description" class="card-text">{{ listing.item_description }}</p>
+                            <p id="index_item_link" class="card-text"><small class="text-muted"><a
+                                        href="{% url 'listing' listing.id %}">Check
+                                        out this item!</a></small></p>
+                        </div>
+                    </div>
+                    <div id="money_col" class="col-md-2 align-items-center">
+                        <div class="card-body">
+                            <strong id="cost">${{ listing.item_initial_price }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ul>
+        {% endfor %}
+    </ul>
+</div>
 
 <!--TODO: Create horizontal cards for each listing-->
 <!--I am thinking probably <a class="card"></a> then having to mess with the CSS for it-->
