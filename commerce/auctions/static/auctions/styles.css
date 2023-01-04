@@ -5,7 +5,7 @@ body {
 /* CSS for listing Page */
 
 #nav_bar {
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 #nav_options {
