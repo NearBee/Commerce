@@ -202,9 +202,9 @@ def categories(request, item_category):
         request,
         "auctions/categories.html",
         {
-            "categories": Auction_Listing.objects.all().filter(
-                item_category=item_category
-            )
+            "categories": Auction_Listing.objects.exclude(winner__isnull=False)
+            .all()
+            .filter(item_category=item_category)
         },
     )
 
