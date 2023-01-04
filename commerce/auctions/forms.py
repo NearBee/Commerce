@@ -1,6 +1,59 @@
+import re
+
 from django import forms
-from django.forms import Textarea, NumberInput, TextInput, Select, ClearableFileInput
+from django.forms import (
+    ClearableFileInput,
+    NumberInput,
+    Select,
+    Textarea,
+    TextInput,
+    Widget,
+)
+from django.utils.safestring import mark_safe
+
 from .models import Auction_Listing, Bid, Comment
+
+
+class Input_Group_Widget(Widget):
+    """Widget that prepend boostrap-style span with data to specified base widget"""
+
+    def __init__(self, base_widget, data, *args, **kwargs):
+        """Initialize widget and get base instance"""
+        super(Input_Group_Widget, self).__init__(*args, **kwargs)
+        self.base_widget = base_widget(*args, **kwargs)
+        self.attrs = kwargs.get("attrs")  # type: ignore
+        self.data = data
+
+    def render(self, name, value, attrs=None, renderer=None):
+        """Render base widget and add bootstrap spans"""
+        field = self.base_widget.render(name, value, attrs, renderer)
+
+        if self.attrs.get("style"):
+            style = f"style=\"{self.attrs['style']}\""
+        else:
+            style = ""
+
+        if self.attrs.get("id"):
+            id = f"{self.attrs['id']}"
+        else:
+            id = ""
+
+        match = re.search(r"(?:type=\"(\w*)\")", field)
+        if match:
+            type = match.groups()[0]
+        else:
+            type = "text"
+
+        print(type)
+
+        return mark_safe(
+            (
+                f'<div class="input-group mb-3" {style}>'
+                f'  <span class="input-group-text" id="{name}">{self.data}</span>'
+                f'  <input type="{type}" id="{id}" class="form-control" aria-describedby="prepend-{name}">'
+                f"</div>"
+            )
+        )
 
 
 class create_listing_forms(forms.ModelForm):
@@ -21,11 +74,15 @@ class create_listing_forms(forms.ModelForm):
                     "class": "form-control mt-2",
                 }
             ),
-            "item_initial_price": NumberInput(
+            "item_initial_price": Input_Group_Widget(
+                base_widget=forms.NumberInput,
+                data="$",
                 attrs={
                     "style": "height: 35px; width: 450px;",
+                    "placeholder": "$",
                     "class": "form-control mt-2",
-                }
+                    "id": "initializing_price",
+                },
             ),
             "item_category": Select(
                 attrs={
