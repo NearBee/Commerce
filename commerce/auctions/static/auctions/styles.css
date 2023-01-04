@@ -9,7 +9,8 @@ body {
 }
 
 #nav_options {
-    min-width: 750px;
+    min-width: 1000px;
+    justify-content: center;
 }
 
 #whole_card {
@@ -130,3 +131,48 @@ sub {
 }
 
 /* END CSS for Watchlist Page */
+
+/* CSS for Index Page */
+
+#index_list {
+    width: 1000px;
+}
+
+#index_image_col {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+}
+
+#index_image {
+    min-height: 100px;
+    max-height: 170px;
+    width: 100px;
+}
+
+#index_item_description,
+#index_item_link {
+    width: 80%;
+    padding-left: 20px;
+}
+
+#money_col {
+    display: flex;
+}
+
+#cost {
+    color: #889b73;
+    border-bottom: 1px dashed #a9b79a;
+}
+
+/* END CSS for Index Page */
+
+/* CSS for Closed Auction Page (borrowing some id's from index) */
+
+#closed_cost {
+    color: #e7bd42;
+    border-bottom: 1px dashed #efd484;
+}
+
+/* END CSS for Closed Auction Page */
