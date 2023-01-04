@@ -3,6 +3,7 @@
 {% block title %}Watchlist{% endblock %}
 
 {% block body %}
+{% if watchlisted_items %}
 {% for item in watchlisted_items %}
 <ul>
     <div class="container text-left">
@@ -26,4 +27,22 @@
     </div>
 </ul>
 {% endfor %}
-{% endblock %}
+{% else %}
+<div id="watchlist_container" class="container">
+    <div class="row">
+        <div id="watchlist_col" class="col align-items-center justify-content-center">
+            <div class="row">
+                <div class="col">
+                    <i id="watchlist_icon" class="bi bi-balloon"></i>
+                </div>
+            </div>
+            <div id="watchlist_text" class="row justify-content-center">
+                <div class="col">
+                    <span>Sorry nothing is being watched at this time, would you like to check out some <a
+                            href="{% url 'index' %}">items?</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endblock %}
