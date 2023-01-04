@@ -117,6 +117,11 @@ sub {
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
+    justify-content: center;
+}
+
+#watchlist_image_row {
+    width: 960px;
 }
 
 #watchlist_container {
