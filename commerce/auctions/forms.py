@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import Textarea, NumberInput
+from django.forms import Textarea, NumberInput, TextInput, Select, ClearableFileInput
 from .models import Auction_Listing, Bid, Comment
 
 
@@ -8,6 +8,38 @@ class create_listing_forms(forms.ModelForm):
         model = Auction_Listing
         fields = "__all__"
         exclude = ["user", "winner"]
+        widgets = {
+            "item_title": TextInput(
+                attrs={
+                    "style": "height: 35px; width: 450px;",
+                    "class": "form-control mt-2",
+                }
+            ),
+            "item_description": Textarea(
+                attrs={
+                    "style": "height: 100px; width: 450px; resize: initial;",
+                    "class": "form-control mt-2",
+                }
+            ),
+            "item_initial_price": NumberInput(
+                attrs={
+                    "style": "height: 35px; width: 450px;",
+                    "class": "form-control mt-2",
+                }
+            ),
+            "item_category": Select(
+                attrs={
+                    "style": "height: 35px; width: 450px;",
+                    "class": "form-control mt-2",
+                }
+            ),
+            "item_picture": ClearableFileInput(
+                attrs={
+                    "style": "height: 35px; width: 450px;",
+                    "class": "form-control mt-2",
+                }
+            ),
+        }
 
 
 class bid_forms(forms.ModelForm):
