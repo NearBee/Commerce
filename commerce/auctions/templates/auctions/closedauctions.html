@@ -6,7 +6,39 @@
 
 <h2>Closed Listings</h2>
 
-<ul>
+<div id="listing_cards" class="row g-0 justify-content-center">
+    <ul id="index_list">
+        {% for listing in listings %}
+        <ul style="padding: 10px 0 10px 0;">
+            <div class="card mb-6" style="max-width: 1000px;">
+                <div class="row g-0">
+                    <div id="index_image_col" class="col-md-2">
+                        <img class="img-thumbnail"
+                            src="{{ listing.item_picture.url|default_if_none:'question_mark.png' }}" alt="No image"
+                            height="100px" width="100px">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ listing.item_title }}:</h5>
+                            <p id="index_item_description" class="card-text">{{ listing.item_description }}</p>
+                            <p id="index_item_link" class="card-text"><small class="text-muted"><i>
+                                        The winning bid is:</i> ${{ listing.item_initial_price }} by
+                                    <strong>{{ listing.winner }}</strong></small></p>
+                        </div>
+                    </div>
+                    <div id="money_col" class="col-md-2 align-items-center">
+                        <div class="card-body">
+                            <strong id="closed_cost">${{ listing.item_initial_price }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ul>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- <ul>
     {% for listing in listings %}
     <ul> <img class="img-thumbnail" src="{{ listing.item_picture.url|default_if_none:'question_mark.png' }}"
             alt="No image" height="100px" width="100px">
@@ -14,6 +46,6 @@
         <strong> The winning bid is!</strong> ${{ listing.item_initial_price }} by {{ listing.winner }}
     </ul>
     {% endfor %}
-</ul>
+</ul> -->
 
 {% endblock %}
