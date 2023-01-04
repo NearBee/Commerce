@@ -2,6 +2,8 @@ body {
     padding: 10px;
 }
 
+/* CSS for listing Page */
+
 #nav_bar {
     justify-content: space-between;
 }
@@ -104,3 +106,27 @@ sub {
     /* border-top: .25px dotted black; */
     padding-left: 25px;
 }
+
+/* END CSS for listing Page */
+
+/* CSS for Watchlist Page */
+
+#watchlist_container,
+#watchlist_col {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+#watchlist_container {
+    height: 1000px;
+}
+
+#watchlist_icon {
+    font-size: 500px;
+    opacity: .07;
+    z-index: -1;
+    /* padding-left: 195px; */
+}
+
+/* END CSS for Watchlist Page */
