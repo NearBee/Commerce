@@ -68,6 +68,7 @@
             </li>
             {% endif %}
         </ul>
+        {% if listing %}
         {% if user.is_authenticated %}
         <ul id="close_auction">
             {% if user.id == listing.user.id %}
@@ -77,6 +78,7 @@
             </form>
             {% endif %}
         </ul>
+        {% endif %}
         {% endif %}
     </div>
     <hr>
