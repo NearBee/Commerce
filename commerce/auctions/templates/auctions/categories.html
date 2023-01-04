@@ -6,19 +6,54 @@
 
 {% if categories %}
 
-{% for category_item in categories %}
-<li> <img class="img-thumbnail" src="{{ category_item.item_picture.url|default_if_none:'question_mark.png' }}"
-        alt="No image" height="100px" width="100px">
-    {{ category_item.item_title }}:
-    {{ category_item.item_description }} |
-    ${{ category_item.item_initial_price }}
-    <a href="{% url 'listing' category_item.id %}">Check out this item!</a>
-</li>
-{% endfor %}
+<div id="listing_cards" class="row g-0 justify-content-center">
+    <ul id="index_list">
+        {% for category_item in categories %}
+        <ul style="padding: 10px 0 10px 0;">
+            <div class="card mb-6" style="max-width: 1000px;">
+                <div class="row g-0">
+                    <div id="index_image_col" class="col-md-2">
+                        <img id="index_image" class="img-thumbnail"
+                            src="{{ category_item.item_picture.url|default_if_none:'question_mark.png' }}"
+                            alt="No image">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ category_item.item_title }}:</h5>
+                            <p id="index_item_description" class="card-text">{{ category_item.item_description }}</p>
+                            <p id="index_item_link" class="card-text"><small class="text-muted"><a
+                                        href="{% url 'listing' category_item.id %}">Check
+                                        out this item!</a></small></p>
+                        </div>
+                    </div>
+                    <div id="money_col" class="col-md-2 align-items-center">
+                        <div class="card-body">
+                            <strong id="cost">${{ category_item.item_initial_price }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ul>
+        {% endfor %}
+    </ul>
+</div>
 
 {% else %}
-<h1>Sorry there is no items under this category!</h1>
-{% endif %}
-<!-- Have to make an IF for null items due to category being not necessary -->
-
-{% endblock %}
+<div id="watchlist_container" class="container">
+    <div id="watchlist_image_row" class="row">
+        <div id="watchlist_col" class="col align-items-center justify-content-center">
+            <div class="row">
+                <div class="col">
+                    <i id="watchlist_icon" class="bi bi-balloon"></i>
+                </div>
+            </div>
+            <div id="watchlist_text" class="row justify-content-center">
+                <div class="col">
+                    <span>Sorry there are no items in this category, would you like to check out some <a
+                            href="{% url 'index' %}">items?</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endblock %}
