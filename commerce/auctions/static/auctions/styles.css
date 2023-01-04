@@ -181,3 +181,16 @@ sub {
 }
 
 /* END CSS for Closed Auction Page */
+
+/* CSS for Create Auction Page */
+
+#cl_button_row {
+    width: 460px;
+    padding-left: 13px;
+}
+
+#cl_button {
+    width: auto;
+}
+
+/* END CSS for Create Auction Page */
