@@ -36,7 +36,7 @@ class Input_Group_Widget(Widget):
         if self.attrs.get("id"):
             id = f"{self.attrs['id']}"
         else:
-            id = ""
+            id = "id_item_initial_price"
 
         match = re.search(r"(?:type=\"(\w*)\")", field)
         if match:
@@ -48,7 +48,7 @@ class Input_Group_Widget(Widget):
             (
                 f'<div class="input-group mb-3" {style}>'
                 f'  <span class="input-group-text" id="{name}">{self.data}</span>'
-                f'  <input type="{type}" id="{id}" class="form-control" aria-describedby="prepend-{name}">'
+                f'  <input type="{type}" id="{id}" class="form-control" value="{value}" name={name} aria-describedby="{name}">'
                 f"</div>"
             )
         )
@@ -79,7 +79,7 @@ class create_listing_forms(forms.ModelForm):
                     "style": "height: 35px; width: 450px;",
                     "placeholder": "$",
                     "class": "form-control mt-2",
-                    "id": "initializing_price",
+                    "value": "1",
                 },
             ),
             "item_category": Select(
