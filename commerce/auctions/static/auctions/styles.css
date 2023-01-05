@@ -132,7 +132,6 @@ sub {
     font-size: 500px;
     opacity: .07;
     z-index: -1;
-    /* padding-left: 195px; */
 }
 
 /* END CSS for Watchlist Page */
@@ -194,3 +193,11 @@ sub {
 }
 
 /* END CSS for Create Auction Page */
+
+/* CSS for row changes */
+
+.row>* {
+    width: auto;
+    /* max-width: none; */
+    padding-right: initial;
+}
