@@ -201,3 +201,11 @@ sub {
     /* max-width: none; */
     padding-right: initial;
 }
+
+#cat_nav_link {
+    color: #0d6efd;
+}
+
+#cat_nav_link:hover {
+    color: #0a58ca;
+}
