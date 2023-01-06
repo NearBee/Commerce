@@ -210,7 +210,8 @@ def categories(request, item_category):
         {
             "categories": Auction_Listing.objects.exclude(winner__isnull=False)
             .all()
-            .filter(item_category=item_category)
+            .filter(item_category=item_category),
+            "current_category": item_category,
         },
     )
 
