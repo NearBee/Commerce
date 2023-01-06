@@ -34,6 +34,20 @@ body {
 #img_col {
     min-width: 330px;
     max-width: 330px;
+    translate: 5px 5px;
+}
+
+#img_img {
+    z-index: 1;
+    border-radius: .32rem 0 0 0;
+    box-shadow: 5px 5px 15px #A09C9C;
+    position: absolute;
+}
+
+#img_corners {
+    z-index: 1;
+    position: relative;
+    transform: scale(1.04);
 }
 
 #close_auction {
@@ -92,10 +106,6 @@ body {
     min-width: 490px;
     width: 95%;
     max-width: 972px;
-}
-
-#username_date {
-    justify-content: space-between;
 }
 
 sub {
@@ -195,12 +205,6 @@ sub {
 /* END CSS for Create Auction Page */
 
 /* CSS for row changes */
-
-.row>* {
-    width: auto;
-    /* max-width: none; */
-    padding-right: initial;
-}
 
 #cat_nav_link {
     color: #0d6efd;
