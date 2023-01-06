@@ -1,7 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-<h2>Active Listings</h2>
+<h1 class="display-6 text-center">Active Listings</h1>
 <div id="listing_cards" class="row g-0 justify-content-center">
     <ul id="index_list">
         {% if listings %}
@@ -33,6 +33,7 @@
         </ul>
         {% endfor %}
         {% else %}
+        <h1 class="display-6 text-center">Whoops...</h1>
         <div id="watchlist_container" class="container">
             <div id="watchlist_image_row" class="row">
                 <div id="watchlist_col" class="col align-items-center justify-content-center">
