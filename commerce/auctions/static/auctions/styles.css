@@ -160,9 +160,9 @@ sub {
 }
 
 #index_image {
-    min-height: 100px;
-    max-height: 170px;
-    width: 100px;
+    height: 125px;
+    width: 125px;
+    box-shadow: 2px 2px 5px .5px #A09C9C;
 }
 
 #index_item_description,
