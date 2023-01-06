@@ -161,6 +161,5 @@ cython_debug/
 
 notes.txt
 migrations/
-images/
 node_modules/
 package-lock.json/
