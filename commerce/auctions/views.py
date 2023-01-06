@@ -48,6 +48,7 @@ def logout_view(request):
 
 
 def register(request):
+    timezones = pytz.common_timezones
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -58,7 +59,9 @@ def register(request):
         confirmation = request.POST["confirmation"]
         if password != confirmation:
             return render(
-                request, "auctions/register.html", {"message": "Passwords must match."}
+                request,
+                "auctions/register.html",
+                {"message": "Passwords must match", "timezones": timezones},
             )
 
         # Attempt to create new user
@@ -68,15 +71,15 @@ def register(request):
             user.timezone = tz
             user.save()
         except IntegrityError:
+
             return render(
                 request,
                 "auctions/register.html",
-                {"message": "Username already taken."},
+                {"message": "Username already taken", "timezones": timezones},
             )
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
-        timezones = pytz.common_timezones
         return render(request, "auctions/register.html", {"timezones": timezones})
 
 
