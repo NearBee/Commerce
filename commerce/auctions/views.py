@@ -125,13 +125,13 @@ def active_listing(request, id):
                     bidding_form.cleaned_data.get("new_bid")
                     <= listing.item_initial_price
                 ):
-                    messages.warning(
+                    messages.error(
                         request, "New bid amount must be higher than the posted one."
                     )
                     return redirect("listing", id=id)
 
                 elif user == listing.user:
-                    messages.warning(
+                    messages.error(
                         request, "The lister of the auction can't bid on the auction"
                     )
                     return redirect("listing", id=id)
@@ -163,9 +163,11 @@ def active_listing(request, id):
                     == listing.watchers.filter(username__exact=user.username).first()  # type: ignore
                 ):
                     listing.watchers.remove(user)  # type: ignore
+                    messages.success(request, "No longer watching")
                     return redirect("listing", id=id)
                 else:
                     user.watchlist_item.add(listing)
+                    messages.success(request, f"Now watching [{listing.item_title}]")
                     return redirect("listing", id=id)
 
             if "delete_button" in request.POST:
