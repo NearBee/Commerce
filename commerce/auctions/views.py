@@ -201,17 +201,18 @@ def active_listing(request, id):
 
 
 @login_required(redirect_field_name="", login_url="login")
-def watchlist(request, id):
+def watchlist(request, username):
     # Button to remove the watchlisted item from the user's watchlist
     user = request.user
-    if "remove_button" in request.POST:
-        print(user.watchlist_item.get(item_title=request.POST[item.item_title]))
+    if user.username != username:
+        messages.error(request, "You can't view other user's watchlists")
+        return redirect("index")
 
     else:
         return render(
             request,
             "auctions/watchlist.html",
-            {"watchlisted_items": Auction_Listing.objects.filter(watchers=id)},
+            {"watchlisted_items": user.watchlist_item.all()},
         )
 
 
