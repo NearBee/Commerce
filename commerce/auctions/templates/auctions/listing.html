@@ -10,17 +10,19 @@
 
 <div id="whole_card" class="row g-0 justify-content-center">
     <div id="listing_card" class="card mb-3">
-        <div id="listing_card_length" class="row justify-content-center">
-            <div id="img_bid_row" class="row">
+        <div id="listing_card_length" class="row g-0 justify-content-center">
+            <div id="img_bid_row" class="row g-0">
                 <div id="img_col" class="col-md-4">
-                    <img class="img=fluid rounded-start" src="{{ listing.item_picture.url }}" alt="No image"
+                    <img id="img_img" class="object-fit-cover" src="{{ listing.item_picture.url }}" alt="No image"
+                        height="300px" width="300px">
+                    <img id="img_corners" class="object-fit-cover" src="/images/image_covers.png" alt="No image"
                         height="300px" width="300px">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
                         <div id="item_name" class="row g-0 col-12">{{ listing.item_title }}</div>
-                        <div id="watchlist_row" class="row row-cols-2">
-                            <div class="col-4">
+                        <div id="watchlist_row" class="row g-0 row-cols-2">
+                            <div id="img_container" class="col-4">
                                 <form name="watchlist_item" type="submit" method="post">
                                     {% csrf_token %}
                                     <button id="watchlist_button" type="submit" method="post"
@@ -40,14 +42,14 @@
                         {{ listing.item_description }}
                     </div>
                     <div class="card-body">
-                        <div id="bidding_row" class="row row-cols-3 align-items-center justify-content-start">
-                            <b class="col-3 text-center">Current Bid:</b>
+                        <div id="bidding_row" class="row g-0 row-cols-3 align-items-center justify-content-start">
+                            <b class="col-3">Current Bid:</b>
                             <i class="col-2 text-start">${{listing.item_initial_price }}</i>
                             <form class="col-md-4" name="bidding_form" type="submit" method="post">
                                 {% csrf_token %}
                                 {{ bidding_form }}
-                                <div id="bidding_button" class="row justify-content-end">
-                                    <div style="display: flex;">
+                                <div id="bidding_button" class="row g-0 justify-content-end">
+                                    <div class="col-auto pe-3" style="display: flex;">
                                         <input id="listing_buttons" class="btn btn-primary btn-sm" type="submit"
                                             name="bidding_form" value="Submit Bid!">
                                     </div>
@@ -57,14 +59,14 @@
                     </div>
                 </div>
             </div>
-            <div id="comment_row" class="row">
+            <div id="comment_row" class="row g-0">
                 <div class="card-body">
-                    <div class="row justify-content-start">
+                    <div class="row g-0 justify-content-start">
                         <form class="col-md-12" name="comment_form" type="submit" method="post">
                             {% csrf_token %}
                             {{ comment_form }}
-                            <div id="comment_button" class="row justify-content-end">
-                                <div>
+                            <div id="comment_button" class="row g-0 justify-content-end">
+                                <div class="col-md-2 ps-3 me-1">
                                     <input id="listing_buttons" class="btn btn-primary btn-sm" type="submit"
                                         name="comment_form" value="Submit Comment!">
                                 </div>
@@ -73,25 +75,25 @@
                     </div>
                 </div>
             </div>
-            <div id="comment_section" class="row">
+            <div id="comment_section" class="row g-0">
                 <div id="comments" class="card-body">
                     <hr class="border border-1 opacity-50">
                     {% for comment in comments %}
 
                     <p>
-                    <div id="username_date" class="row col-md-12">
-                        <i>{{ comment.user }}:</i>
+                    <div id="username_date" class="row g-0 col-md-12 justify-content-end">
+                        <i class="col-10">{{ comment.user }}:</i>
                         {% if user.timezone %}
 
                         {% timezone user.timezone %}
-                        <sub class="col-2 justify-content-end">{{ comment.created_at }}</sub>
+                        <sub class="col-2">{{ comment.created_at }}</sub>
                         {% endtimezone %}
 
                         {% else %}
-                        <sub class="col-2 justify-content-end">{{ comment.created_at }}</sub>
+                        <sub class="col-2">{{ comment.created_at }}</sub>
                         {% endif %}
                     </div>
-                    <div id="user_comment" class="row col-md-12">
+                    <div id="user_comment" class="row g-0 col-md-12">
                         {{ comment }}
                     </div>
                     </p>
