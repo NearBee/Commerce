@@ -4,36 +4,60 @@
 
 {% block body %}
 
-<h2>Register</h2>
 
+<h1 class="display-6 text-center mb-5">Register</h1>
 {% if message %}
-<div>{{ message }}</div>
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <h3 class="text-decoration-underline text-danger  fw-light mb-5">{{ message }}</h3>
+    </div>
+</div>
 {% endif %}
 
-<form action="{% url 'register' %}" method="post">
+<form class="row g-3 justify-content-center" action="{% url 'register' %}" method="post" novalidate>
     {% csrf_token %}
-    <div class="form-group">
-        <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+    <div class="form-floating col-sm-10">
+        <input class="form-control" id="register_username" name="username" placeholder="Username">
+        <label for="register_username">Username</label>
     </div>
-    <div class="form-group">
-        <input class="form-control" type="email" name="email" placeholder="Email Address">
+
+    <div class="form-floating col-sm-10">
+        <input class="form-control " type="email" id="register_email" name="email" placeholder="Email Address">
+        <label for="register_email">Email</label>
     </div>
-    <div class="form-group">
-        <input class="form-control" type="password" name="password" placeholder="Password">
+
+    <div class="form-floating col-sm-5">
+        <input class="form-control" type="password" id="register_password" name="password" placeholder="Password">
+        <label for="register_password">Password</label>
     </div>
-    <div class="form-group">
-        <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+
+    <div class="form-floating col-sm-5">
+        <input class="form-control" type="password" id="register_password" name="confirmation"
+            placeholder="Confirm Password">
+        <label for="register_password">Re-type Password</label>
     </div>
-    <div class="form-group">
-        <select class="form-select" name="timezone" placeholder="Current Timezone" required>
+
+    <div class="form-floating col-sm-10">
+        <select class="form-select" id="register_timezone" name="timezone" placeholder="Current Timezone" required>
             {% for tz in timezones %}
             <option value="{{ tz }}">{{ tz }}</option>
             {% endfor %}
         </select>
+        <label for="register_timezone">Timezone</label>
     </div>
-    <input class="btn btn-primary" type="submit" value="Register">
+
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <input class="btn btn-primary btn-sm my-3" type="submit" value="Register Account">
+        </div>
+    </div>
+
 </form>
 
-Already have an account? <a href="{% url 'login' %}">Log In here.</a>
 
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <small class="text-muted mt-5">Already have an account? <a href="{% url 'login' %}">Log In here.</a></small>
+    </div>
+</div>
 {% endblock %}
