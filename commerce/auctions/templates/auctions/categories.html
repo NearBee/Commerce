@@ -1,10 +1,12 @@
 {% extends "auctions/layout.html" %}
 
-{% block title %}Category Search: {{ category_item }}{% endblock %}
+{% block title %}Category Search: {{ current_category }}{% endblock %}
 
 {% block body %}
 
 {% if categories %}
+
+<h1 class="display-6 text-center">{{ current_category }} Listings</h1>
 
 <div id="listing_cards" class="row g-0 justify-content-center">
     <ul id="index_list">
@@ -13,8 +15,8 @@
             <div class="card mb-6" style="max-width: 1000px;">
                 <div class="row g-0">
                     <div id="index_image_col" class="col-md-2">
-                        <img id="index_image" class="img-thumbnail"
-                            src="{{ category_item.item_picture.url|default_if_none:'question_mark.png' }}"
+                        <img id="index_image" class="object-fit-sm-cover border rounded my-2"
+                            src="{{ category_item.item_picture.url|default_if_none:'Double_Question_Mark.png' }}"
                             alt="No image">
                     </div>
                     <div class="col-md-8">
@@ -39,6 +41,7 @@
 </div>
 
 {% else %}
+<h1 class="display-6 text-center">Whoops...<small class="text-muted fs-5">This is awkward...</small></h1>
 <div id="watchlist_container" class="container">
     <div id="watchlist_image_row" class="row">
         <div id="watchlist_col" class="col align-items-center justify-content-center">
@@ -49,7 +52,7 @@
             </div>
             <div id="watchlist_text" class="row justify-content-center">
                 <div class="col">
-                    <span>Sorry there are no items in this category, would you like to check out some <a
+                    <span>Sorry there are no items in {{ current_category|lower }}, would you like to check out some <a
                             href="{% url 'index' %}">items?</a></span>
                 </div>
             </div>
