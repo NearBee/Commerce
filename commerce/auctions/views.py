@@ -120,10 +120,16 @@ def active_listing(request, id):
                 bidding_form = bid_forms(request.POST)
                 if bidding_form.is_valid() and (
                     bidding_form.cleaned_data.get("new_bid")
-                    < listing.item_initial_price
+                    <= listing.item_initial_price
                 ):
                     messages.warning(
                         request, "New bid amount must be higher than the posted one."
+                    )
+                    return redirect("listing", id=id)
+
+                elif user == listing.user:
+                    messages.warning(
+                        request, "The lister of the auction can't bid on the auction"
                     )
                     return redirect("listing", id=id)
 
