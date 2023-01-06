@@ -100,12 +100,19 @@ def create_listing(request):
 
 
 def active_listing(request, id):
+    # Catching the exception if the user tries to access a lasting that doesn't exist
+    try:
+        listing = Auction_Listing.objects.get(id=id)
+    except Auction_Listing.DoesNotExist:
+        messages.error(request, f"A listing with that ID doesn't exist")
+        return redirect("index")
+
     user = request.user
-    listing = Auction_Listing.objects.get(id=id)
     bids = bid_forms()
     comments = Comment.objects.all().filter(auction_id=id)
     comment_form = comment_forms()
     watchlist_number = listing.watchers.count()  # type: ignore
+
     if not user.is_authenticated:
         return render(
             request,
