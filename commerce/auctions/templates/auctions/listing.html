@@ -12,7 +12,8 @@
 <div class="row justify-content-center">
     <div class="col-auto">
         {% for message in messages %}
-        <h4 class="text-{{ message.tags }}  fw-light mb-5">{{ message }}</h4>
+        <h5 class="text-{{ message.tags }} animate__animated overflow-hidden
+        animate__fadeOutUp animate__delay-3s fw-light pb-1 mb-5">{{ message }}</h5>
         {% endfor %}
     </div>
 </div>
