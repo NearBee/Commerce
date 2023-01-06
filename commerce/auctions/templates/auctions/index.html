@@ -1,6 +1,18 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+
+{% if messages %}
+<div class="row justify-content-center">
+    <div class="col-auto">
+        {% for message in messages %}
+        <h4 class="text-{{ message.tags }} animate__animated overflow-hidden
+        animate__fadeOutUp animate__delay-3s fw-light mb-5">{{ message }}</h4>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
 <h1 class="display-6 text-center">Active Listings</h1>
 <div id="listing_cards" class="row g-0 justify-content-center">
     <ul id="index_list">
