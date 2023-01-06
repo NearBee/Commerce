@@ -8,6 +8,16 @@
     <strong>Seller: </strong><i>{{ listing.user }}</i>
 </div>
 
+{% if messages %}
+<div class="row justify-content-center">
+    <div class="col-auto">
+        {% for message in messages %}
+        <h4 class="text-{{ message.tags }}  fw-light mb-5">{{ message }}</h4>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
 <div id="whole_card" class="row g-0 justify-content-center">
     <div id="listing_card" class="card mb-3">
         <div id="listing_card_length" class="row g-0 justify-content-center">
