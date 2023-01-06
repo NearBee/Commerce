@@ -4,13 +4,15 @@
 <h2>Active Listings</h2>
 <div id="listing_cards" class="row g-0 justify-content-center">
     <ul id="index_list">
+        {% if listings %}
         {% for listing in listings %}
         <ul style="padding: 10px 0 10px 0;">
             <div class="card mb-6" style="max-width: 1000px;">
                 <div class="row g-0">
                     <div id="index_image_col" class="col-md-2">
-                        <img id="index_image" class="img-thumbnail"
-                            src="{{ listing.item_picture.url|default_if_none:'question_mark.png' }}" alt="No image">
+                        <img id="index_image" class="object-fit-sm-cover border rounded my-2"
+                            src="{{ listing.item_picture.url|default_if_none:'Double_Question_Mark.png' }}"
+                            alt="No image">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -30,6 +32,24 @@
             </div>
         </ul>
         {% endfor %}
+        {% else %}
+        <div id="watchlist_container" class="container">
+            <div id="watchlist_image_row" class="row">
+                <div id="watchlist_col" class="col align-items-center justify-content-center">
+                    <div class="row">
+                        <div class="col">
+                            <i id="watchlist_icon" class="bi bi-balloon"></i>
+                        </div>
+                    </div>
+                    <div id="watchlist_text" class="row justify-content-center">
+                        <div class="col">
+                            <span>Sorry there are no items currently listed :(, would you like to<a
+                                    href="{% url 'createlisting' %}"> make one?</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
     </ul>
 </div>
 
