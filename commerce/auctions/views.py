@@ -31,6 +31,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
+            messages.success(request, f"Welcome, {user}!")
             return HttpResponseRedirect(reverse("index"))
         else:
             return render(
@@ -44,6 +45,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
+    messages.success(request, "See you next time!")
     return HttpResponseRedirect(reverse("index"))
 
 
@@ -92,7 +94,7 @@ def create_listing(request):
             new_listing = form.save(commit=False)
             new_listing.user = request.user
             new_listing.save()
-
+            messages.success(request, "Listing created!")
             return redirect("index")
     else:
         form = create_listing_forms()
@@ -202,7 +204,6 @@ def active_listing(request, id):
 
 @login_required(redirect_field_name="", login_url="login")
 def watchlist(request, username):
-    # Button to remove the watchlisted item from the user's watchlist
     user = request.user
     if user.username != username:
         messages.error(request, "You can't view other user's watchlists")
