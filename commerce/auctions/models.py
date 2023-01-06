@@ -46,7 +46,7 @@ class Auction_Listing(models.Model):
     )
 
     item_picture = models.ImageField(
-        default="question_mark.png",
+        default="Double_Question_Mark.png",
     )
 
     CATEGORIES = (
@@ -63,6 +63,7 @@ class Auction_Listing(models.Model):
         User,
         on_delete=models.SET_NULL,
         default=None,
+        blank=True,
         null=True,
         related_name="winning_user",
     )
