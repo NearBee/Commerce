@@ -181,7 +181,7 @@ def active_listing(request, id):
                     messages.success(request, f"Now watching [{listing.item_title}]")
                     return redirect("listing", id=id)
 
-            if "delete_button" in request.POST:
+            if "close_auction_button" in request.POST:
                 if user.id == listing.user.id:  # type: ignore
                     # TODO: Set a confirmation toast for this
                     try:
