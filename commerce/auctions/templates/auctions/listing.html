@@ -32,6 +32,8 @@
                 <div class="col-md-8">
                     <div class="card-body">
                         <div id="item_name" class="row g-0 col-12">{{ listing.item_title }}</div>
+
+                        {% if not listing.watcher %}
                         <div id="watchlist_row" class="row g-0 row-cols-2">
                             <div id="img_container" class="col-4">
                                 <form name="watchlist_item" type="submit" method="post">
@@ -48,7 +50,11 @@
                                 <b>{{ watchlist_number }} People watching currently!</b>
                             </div>
                         </div>
+                        {% else %}
+                        <h1>Poop</h1>
+                        {% endif %}
                     </div>
+
                     <div class="card-body">
                         {{ listing.item_description }}
                     </div>
@@ -56,6 +62,7 @@
                         <div id="bidding_row" class="row g-0 row-cols-3 align-items-center justify-content-start">
                             <b class="col-3">Current Bid:</b>
                             <i class="col-2 text-start">${{listing.item_initial_price }}</i>
+                            {% if not listing.user__username %}
                             <form class="col-md-4" name="bidding_form" type="submit" method="post">
                                 {% csrf_token %}
                                 {{ bidding_form }}
@@ -66,6 +73,17 @@
                                     </div>
                                 </div>
                             </form>
+                            {% elif listing.user_username != item_new_bid.user_username %}
+                            <h1>Poop</h1>
+                            {% else %}
+                            <div class="col">
+                                <form name="close_auction_button" type="submit" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-outline-success" name="close_auction_button"
+                                        type="submit">Accept Current Bid</button>
+                                </form>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
