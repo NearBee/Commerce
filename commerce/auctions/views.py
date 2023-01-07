@@ -154,6 +154,7 @@ def active_listing(request, id):
                         item_initial_price=new_bidding_form.new_bid
                     )
                     new_bidding_form.save()
+                    messages.success(request, "New bid accepted!")
                     return redirect("listing", id=id)
 
             comment_form = comment_forms(request.POST)
@@ -163,6 +164,7 @@ def active_listing(request, id):
                 new_comment_form.user = user
                 new_comment_form.save()
                 comment_form = comment_forms()
+                messages.success(request, "New comment created!")
                 return redirect("listing", id=id)
 
             if "watchlist_button" in request.POST:
@@ -182,8 +184,22 @@ def active_listing(request, id):
             if "delete_button" in request.POST:
                 if user.id == listing.user.id:  # type: ignore
                     # TODO: Set a confirmation toast for this
-                    listing.winner = Bid.objects.filter(auction_id=id).last().user
+                    try:
+                        listing.winner = Bid.objects.filter(auction_id=id).last().user
+                    except AttributeError:
+                        messages.error(request, "Listing deleted, no available winner")
+                        listing.delete()
+                        return redirect("index")
+                    # if listing.winner == None:
+                    #     listing.delete()
+                    #     messages.error(request, "Listing deleted, no available winner")
+                    #     return redirect("index")
+                    # else:
+
                     listing.save()
+                    messages.success(
+                        request, f"A winner has been chosen for {listing.item_title}!"
+                    )
                     return redirect("closedauctions")
                 else:
                     # TODO: Set a toast for this
