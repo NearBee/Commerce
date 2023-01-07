@@ -71,18 +71,6 @@
             </li>
             {% endif %}
         </ul>
-        {% if listing %}
-        {% if user.is_authenticated %}
-        <ul id="close_auction">
-            {% if user.id == listing.user.id %}
-            <form name="delete_button" type="submit" method="post">
-                {% csrf_token %}
-                <button class="btn btn-outline-danger" name="delete_button" type="submit">Delete Auction</button>
-            </form>
-            {% endif %}
-        </ul>
-        {% endif %}
-        {% endif %}
     </div>
     <hr>
     {% block body %}
