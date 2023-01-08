@@ -114,6 +114,7 @@ def active_listing(request, id):
     comments = Comment.objects.all().filter(auction_id=id)
     comment_form = comment_forms()
     watchlist_number = listing.watchers.count()  # type: ignore
+    watcher = User.objects.filter(watchlist_item=id).filter(username=user).first()
 
     if not user.is_authenticated:
         return render(
@@ -169,16 +170,16 @@ def active_listing(request, id):
 
             if "watchlist_button" in request.POST:
                 watchlist_number = listing.watchers.count()  # type: ignore
-                if (
-                    user
-                    == listing.watchers.filter(username__exact=user.username).first()  # type: ignore
-                ):
-                    listing.watchers.remove(user)  # type: ignore
-                    messages.success(request, "No longer watching")
-                    return redirect("listing", id=id)
-                else:
+
+                if user != watcher:
                     user.watchlist_item.add(listing)
                     messages.success(request, f"Now watching [{listing.item_title}]")
+                    return redirect("listing", id=id)
+
+                else:
+                    listing_watchers = listing.watchers  # type: ignore
+                    listing_watchers.remove(user)
+                    messages.success(request, "No longer watching")
                     return redirect("listing", id=id)
 
     return render(
@@ -191,6 +192,7 @@ def active_listing(request, id):
             "comment_form": comment_form,
             "comments": comments,
             "watchlist_number": watchlist_number,
+            "watcher": watcher,
         },
     )
 
