@@ -167,8 +167,7 @@ sub {
     box-shadow: 2px 2px 5px .5px #A09C9C;
 }
 
-#index_item_description,
-#index_item_link {
+#index_item_description {
     width: 80%;
     padding-left: 20px;
 }
