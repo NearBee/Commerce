@@ -11,6 +11,12 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path("createlisting", views.create_listing, name="createlisting"),
     path("listing/<int:id>", views.active_listing, name="listing"),
+    path("cancel_auction/<int:listing_id>", views.cancel_auction, name="cancelauction"),
+    path(
+        "accept_auction_bid/<int:listing_id>",
+        views.accept_auction_bid,
+        name="acceptauctionbid",
+    ),
     path("watchlist/<str:username>", views.watchlist, name="watchlist"),
     path("categories/<str:item_category>", views.categories, name="categories"),
     path("closedauctions", views.closed_auctions, name="closedauctions"),
