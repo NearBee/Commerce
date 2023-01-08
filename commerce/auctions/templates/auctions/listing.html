@@ -144,9 +144,9 @@
             <!-- End Comment Row -->
 
             <div id="comment_section" class="row g-0">
-                <div id="comments" class="card-body">
-                    <hr class="border border-1 opacity-50">
-                    {% for comment in comments %}
+                <hr class="border border-1 opacity-50">
+                <div id="comments" class="card-body overflow-auto">
+                    {% for comment in comments|dictsortreversed:"created_at" %}
 
                     <p>
                     <div id="username_date" class="row g-0 col-md-12 justify-content-end">
