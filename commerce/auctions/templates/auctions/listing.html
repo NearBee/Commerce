@@ -39,18 +39,18 @@
                             <div id="img_container" class="col-4">
                                 <form name="watchlist_item" type="submit" method="post">
                                     {% csrf_token %}
-                                    {% if request.user and not listing.watcher__username %}
+                                    {% if user == watcher %}
+                                    <button id="watchlist_button" type="submit" method="post"
+                                        class="btn btn-primary btn-sm" name="watchlist_button"
+                                        value="Watch this item">Stop watching?
+                                        <i class="bi bi-star-fill"></i>
+                                    </button>
+                                    {% else %}
                                     <button id="watchlist_button" type="submit" method="post"
                                         class="btn btn-outline-primary btn-sm" name="watchlist_button"
                                         value="Watch this item">Watch
                                         this item?
                                         <i class="bi bi-star ps-1"></i>
-                                    </button>
-                                    {% else %}
-                                    <button id="watchlist_button" type="submit" method="post"
-                                        class="btn btn-primary btn-sm" name="watchlist_button"
-                                        value="Watch this item">Stop watching?
-                                        <i class="bi bi-star-fill"></i>
                                     </button>
                                     {% endif %}
                                 </form>
@@ -69,7 +69,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <p class="h-50">{{ listing.item_description }}</p>
+                                <p>{{ listing.item_description|linebreaks }}</p>
                             </div>
                         </div>
                     </div>
