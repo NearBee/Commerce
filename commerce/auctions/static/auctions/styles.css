@@ -21,6 +21,7 @@ body {
 #listing_card {
     min-width: 520px;
     max-width: 1000px;
+    min-height: 450px;
 }
 
 #listing_card_length {
