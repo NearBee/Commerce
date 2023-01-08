@@ -181,34 +181,11 @@ def active_listing(request, id):
                     messages.success(request, f"Now watching [{listing.item_title}]")
                     return redirect("listing", id=id)
 
-            if "close_auction_button" in request.POST:
-                if user.id == listing.user.id:  # type: ignore
-                    # TODO: Set a confirmation toast for this
-                    try:
-                        listing.winner = Bid.objects.filter(auction_id=id).last().user
-                    except AttributeError:
-                        messages.error(request, "Listing deleted, no available winner")
-                        listing.delete()
-                        return redirect("index")
-                    # if listing.winner == None:
-                    #     listing.delete()
-                    #     messages.error(request, "Listing deleted, no available winner")
-                    #     return redirect("index")
-                    # else:
-
-                    listing.save()
-                    messages.success(
-                        request, f"A winner has been chosen for {listing.item_title}!"
-                    )
-                    return redirect("closedauctions")
-                else:
-                    # TODO: Set a toast for this
-                    return redirect("index")
-
     return render(
         request,
         "auctions/listing.html",
         {
+            "current_bid_leader": Bid.objects.filter(auction_id__pk=id).last(),
             "listing": listing,
             "bidding_form": bids,
             "comment_form": comment_form,
@@ -216,6 +193,59 @@ def active_listing(request, id):
             "watchlist_number": watchlist_number,
         },
     )
+
+
+def cancel_auction(request, listing_id):
+    try:
+        listing = Auction_Listing.objects.get(id=listing_id)
+
+    except Auction_Listing.DoesNotExist:
+        messages.error(request, f"A listing with that ID doesn't exist")
+        return redirect("index")
+
+    if not request.user == listing.user:
+        messages.error(request, "You shouldn't see this button, weirdo")
+        return redirect("listing", id=listing_id)
+
+    bids = Bid.objects.filter(auction_id=listing)
+
+    if bids:
+        messages.error(request, "You shouldn't see this button, weirdo")
+        return redirect("listing", id=listing_id)
+
+    listing.delete()
+    messages.error(request, "Listing deleted")
+    return redirect("index")
+
+
+def accept_auction_bid(request, listing_id):
+    try:
+        listing = Auction_Listing.objects.get(id=listing_id)
+
+    except Auction_Listing.DoesNotExist:
+        messages.error(request, f"A listing with that ID doesn't exist")
+        return redirect("index")
+
+    if not request.user == listing.user:
+        messages.error(request, "You shouldn't see this button, weirdo")
+        return redirect("listing", id=listing_id)
+
+    try:
+        bids = Bid.objects.filter(auction_id=listing).order_by("new_bid").last()
+
+    except AttributeError:
+        messages.error(request, "Error: No Winner")
+        return redirect("listing", id=listing_id)
+
+    if not bids:
+        messages.error(request, "You shouldn't see this button, weirdo")
+        return redirect("listing", id=listing_id)
+
+    listing.winner = bids.user
+
+    listing.save()
+    messages.success(request, f"A winner has been chosen for {listing.item_title}!")
+    return redirect("closedauctions")
 
 
 @login_required(redirect_field_name="", login_url="login")
