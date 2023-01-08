@@ -22,26 +22,45 @@
         {% for listing in listings %}
         <ul style="padding: 10px 0 10px 0;">
             <div class="card mb-6" style="max-width: 1000px;">
-                <div class="row g-0">
+                <div class="row g-0 justify-content-between">
                     <div id="index_image_col" class="col-md-2">
-                        <img class="img-thumbnail"
+                        <img id="index_image" class="object-fit-sm-cover border rounded my-2"
                             src="{{ listing.item_picture.url|default_if_none:'Double_Question_Mark.png' }}"
-                            alt="No image" height="100px" width="100px">
+                            alt="No image">
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-5">
                         <div class="card-body">
                             <h5 class="card-title">{{ listing.item_title }}:</h5>
                             <p id="index_item_description" class="card-text">{{ listing.item_description }}</p>
-                            <p id="index_item_link" class="card-text"><small class="text-muted"><i>
-                                        The winning bid is:</i> ${{ listing.item_initial_price }} by
-                                    <strong>{{ listing.winner }}</strong></small></p>
                         </div>
                     </div>
-                    <div id="money_col" class="col-md-2 align-items-center">
+
+                    <div id="money_col" class="col-md-4 align-items-center justify-content-evenly">
+                        <p id="index_item_link" class="card-text">
+                            <small class="text-muted">
+                                <i>
+                                    The winning bid is:
+                                </i>
+                            </small>
+                        </p>
+                        <p class="col-6 pe-4">
+
+                            <small id="closed_cost">
+                                ${{ listing.item_initial_price}}
+                            </small>
+                            <br>
+                            <small>
+                                User: {{listing.winner}}
+                            </small>
+
+                        </p>
+                    </div>
+
+                    <!-- <div id="money_col" class="col-md-2 align-items-center">
                         <div class="card-body">
                             <strong id="closed_cost">${{ listing.item_initial_price }}</strong>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </ul>
