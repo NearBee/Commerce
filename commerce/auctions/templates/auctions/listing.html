@@ -120,7 +120,9 @@
                 </div>
             </div>
 
+            <!-- Start Comment Row -->
 
+            {% if user.is_authenticated %}
             <div id="comment_row" class="row g-0">
                 <div class="card-body">
                     <div class="row g-0 justify-content-start">
@@ -137,6 +139,10 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
+
+            <!-- End Comment Row -->
+
             <div id="comment_section" class="row g-0">
                 <div id="comments" class="card-body">
                     <hr class="border border-1 opacity-50">
