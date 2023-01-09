@@ -85,11 +85,11 @@
                     <div class="card-body">
                         <div id="bidding_row" class="row g-0 row-cols-3 align-items-center justify-content-between">
                             <b class="col-3">Current Bid:</b>
-                            <i class="col-auto justify-self-start">${{listing.item_initial_price }}</i>
+                            <i class="col-auto">${{listing.item_initial_price }}</i>
 
                             {% if user.is_authenticated %}
                             {% if listing.user == request.user %}
-                            <div class="col-md-5 ps-5 align-self-center">
+                            <div class="col-md-5 ps-5 align-self-center ms-auto">
                                 {% if current_bid_leader == None %}
                                 <a href="{% url 'cancelauction' listing_id=listing.id %}" class="btn btn-danger">
                                     Cancel Auction
@@ -98,13 +98,14 @@
                                 <small class="text-muted">No bidders currently</small>
                                 {% else %}
                                 <a href="{% url 'acceptauctionbid' listing_id=listing.id %}" class="btn btn-success">
-                                    Accept Auction
+                                    Accept Bid
                                 </a>
+                                <br>
                                 <small class="text-muted">There are bidders</small>
                                 {% endif %}
                             </div>
                             {% else %}
-                            <form class="col-md-4" name="bidding_form" type="submit" method="post">
+                            <form class="col-md-4 ms-auto" name="bidding_form" type="submit" method="post">
                                 {% csrf_token %}
                                 {{ bidding_form }}
                                 <div id="bidding_button" class="row g-0 justify-content-end">
