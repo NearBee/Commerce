@@ -87,7 +87,7 @@ class Bid(models.Model):
     new_bid = models.IntegerField(
         validators=[
             MinValueValidator(1),
-            MaxValueValidator(1000),
+            MaxValueValidator(99999999),
         ],
         blank=True,
     )
