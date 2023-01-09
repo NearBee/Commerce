@@ -18,6 +18,7 @@ urlpatterns = [
         name="acceptauctionbid",
     ),
     path("watchlist/<str:username>", views.watchlist, name="watchlist"),
+    path("categories", views.all_categories, name="allcategories"),
     path("categories/<str:item_category>", views.categories, name="categories"),
     path("closedauctions", views.closed_auctions, name="closedauctions"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
