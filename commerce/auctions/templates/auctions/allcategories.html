@@ -1,0 +1,45 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Category Search{% endblock %}
+
+{% block body %}
+
+{% if categories %}
+
+<h1 class="display-6 text-center">All Categories</h1>
+
+<div class="row justify-content-center">
+    <div class="col-auto text-center">
+        <ul class="px-2 mt-3">
+            <a class="dropdown-item link-primary fs-4 mt-3" href="{% url 'categories' 'Electronics' %}">Electronics</a>
+            <a class="dropdown-item link-primary fs-4 mt-3" href="{% url 'categories' 'Toys' %}">Toys</a>
+            <a class="dropdown-item link-primary fs-4 mt-3" href="{% url 'categories' 'Home Essentials' %}">Home
+                Essentials</a>
+            <a class="dropdown-item link-primary fs-4 mt-3" href="{% url 'categories' 'Fashion' %}">Fashion</a>
+            <a class="dropdown-item link-primary fs-4 mt-3" href="{% url 'categories' 'ETC.' %}">ETC.</a>
+        </ul>
+    </div>
+</div>
+
+
+{% else %}
+<h1 class="display-6 text-center">Whoops...<small class="text-muted fs-5">This is awkward...</small></h1>
+<div id="watchlist_container" class="container">
+    <div id="watchlist_image_row" class="row">
+        <div id="watchlist_col" class="col align-items-center justify-content-center">
+            <div class="row">
+                <div class="col">
+                    <i id="watchlist_icon" class="bi bi-balloon"></i>
+                </div>
+            </div>
+            <div id="watchlist_text" class="row justify-content-center">
+                <div class="col">
+                    <span>Sorry there are no items in {{ current_category|lower }}, would you like to check out some <a
+                            href="{% url 'index' %}">items?</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
