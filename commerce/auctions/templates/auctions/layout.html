@@ -27,7 +27,7 @@
         Not signed in.
         {% endif %}
     </div>
-    <div class="row row-cols-2" id="nav_bar">
+    <div class="row" id="nav_bar">
         <ul class="nav" id="nav_options">
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
@@ -35,24 +35,27 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'closedauctions' %}">Closed Auctions</a>
             </li>
-            <ul class="navbar-nav">
-                <li class="nav-item active dropdown">
-                    <a id="cat_nav_link" class="nav-link dropdown-toggle" href="categories" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Categories Search
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{% url 'allcategories' %}">All Categories</a></li>
-                        <li><a class="dropdown-item" href="{% url 'categories' 'Electronics' %}">Electronics</a>
-                        </li>
-                        <li><a class="dropdown-item" href="{% url 'categories' 'Toys' %}">Toys</a></li>
-                        <li><a class="dropdown-item" href="{% url 'categories' 'Home Essentials' %}">Home Essentials</a>
-                        </li>
-                        <li><a class="dropdown-item" href="{% url 'categories' 'Fashion' %}">Fashion</a></li>
-                        <li><a class="dropdown-item" href="{% url 'categories' 'ETC.' %}">ETC.</a></li>
-                    </ul>
-                </li>
-            </ul>
+            <li class="nav-item">
+                <ul class="navbar-nav">
+                    <li class="nav-item active dropdown">
+                        <a id="cat_nav_link" class="nav-link dropdown-toggle px-3" href="categories" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'allcategories' %}">All Categories</a></li>
+                            <li><a class="dropdown-item" href="{% url 'categories' 'Electronics' %}">Electronics</a>
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'categories' 'Toys' %}">Toys</a></li>
+                            <li><a class="dropdown-item" href="{% url 'categories' 'Home Essentials' %}">Home
+                                    Essentials</a>
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'categories' 'Fashion' %}">Fashion</a></li>
+                            <li><a class="dropdown-item" href="{% url 'categories' 'ETC.' %}">ETC.</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'createlisting' %}">Create a Listing</a>
