@@ -265,6 +265,16 @@ def watchlist(request, username):
         )
 
 
+def all_categories(request):
+    return render(
+        request,
+        "auctions/allcategories.html",
+        {
+            "categories": Auction_Listing.CATEGORIES,
+        },
+    )
+
+
 def categories(request, item_category):
     return render(
         request,
