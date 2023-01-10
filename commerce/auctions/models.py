@@ -89,7 +89,7 @@ class Bid(models.Model):
             MinValueValidator(1),
             MaxValueValidator(99999999),
         ],
-        blank=True,
+        blank=False,
     )
 
     def __str__(self):
@@ -109,7 +109,7 @@ class Comment(models.Model):
 
     comments = models.TextField(
         max_length=500,
-        blank=True,
+        blank=False,
     )
 
     created_at = models.DateTimeField(
