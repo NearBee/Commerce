@@ -1,6 +1,6 @@
 # CS50 Project 2: Commerce  
 
-### *Brief description*:  https://youtu.be/4V2CcP6vZqA (Video Demo)
+### *Brief description*:  [Video Demo](https://youtu.be/4V2CcP6vZqA)
 In this project we were assigned the objective of creating a website with a feel in similarity with that of Ebay. What came along with this task was using ***Python*** and ***Django*** hand in hand to create both the front-end as well as the back-end for the website. There is a very tiny bit of Javascript that I sought out and interpreted in my own way but I have no experience personally with it at all so there is very little.
 
 ---
